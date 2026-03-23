@@ -1,0 +1,16 @@
+# Binaries
+compiler
+scanner
+syntax_analyzer
+test_scanner
+
+# Generated C files
+lex.yy.c
+y.tab.c
+y.tab.h
+
+# Object files
+*.o
+
+# Temporary files
+.DS_Store
