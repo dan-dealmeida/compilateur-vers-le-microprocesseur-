@@ -1,0 +1,1974 @@
+Eric  Alata
+Daniela  Dragomirescu
+4th  year  IR-SI Academic  Year  2020-2021
+Computer  Systems  Project
+From  compiler  to  microprocessor
+Machine Translated by Google
+2
+pipeline
+1.  Development  of  a  compiler  using  LEX  and  YACC
+2.  Design  of  a  RISC-type  microprocessor  with
+Project  organization:
+ÿ  Application  of  hardware  architectures  for  computer  systems
+ÿ  Application  of  Automata  &  Languages
+ÿ  Presentation  of  the  LEX  and  YACC  software
+Machine Translated by Google
+Interpreter
+The  objective  of  this  Computer  Systems  Project  is  to  create  a  complete  computer  system.
+Compiler
+Architecture
+Register-oriented  
+assembler  
+instruction  set
+material
+Execution
+Microprocessor
+Memory-oriented  
+assembler  
+instruction  set
+Execution
+C  programming  language
+A  microprocessor  corresponding  to  a  register-oriented  instruction  set  is  easier  to  implement.  A  cross-
+compiler  to  translate  this  memory-oriented  instruction  set  into  a  register-oriented  instruction  set  will  therefore  
+be  necessary.
+We  will  create  a  compiler  that  translates  a  source  language  (similar  to  C)  into  a  target  language  (a  memory-
+oriented  assembly  instruction  set).  Creating  a  microprocessor  corresponding  to  a  memory-oriented  instruction  
+set  is  difficult.  However,  creating  a
+Cross-assembler
+Here  is  the  complete  diagram  of  our  computer  system:
+Microprocessor
+Objective
+Machine Translated by Google
+  Integer  constants  (keyword:  const )  and  their  names
+simplified  C  language  using  the  LEX  lexical  analyzer  generator  and  the  generator
+The  objective  of  this  practical  exercise  is  to  create  a  compiler  for  a  version
+YACC  (Yet  Another  Compiler )  parser .
+Optional  for  the  2020-2021  academic  year  -  COVID  pandemic  relief.  The
+The  practical  work  will  be  structured  in  4  parts:
+  the  main()  function,  the  curly  braces  { and }
+4
+4.  Cross-assembler  –  The  cross-assembler  will  be  provided  for  the  2020  academic  year.
+An  interpreter  will  be  provided  for  the  2020-2021  academic  year  –  COVID  pandemic  relief
+Manipulating  C-type  arithmetic  expressions.  The  compiler  will  generate  the  code
+Completing  this  section  will  lead  to  grades  above  16.
+1.  Part  One  –  You  will  develop  a  compiler  for  a  language  that  allows  the
+corresponding  to  the  assembly  language.  Next,  you  will  write  an  interpreter  for  the  language.
+The  input  language  is  a  C-like  language  that  recognizes:
+2.  Second  part  –  you  will  add  to  your  C-like  language  the  implementation  of
+conditional  expressions  if  and  while .
+of  the  compiler  and  interpreter  developed.
+3.  Third  part  –  you  will  add  pointer  and/or
+functions  and/or  error  handling  (with  varying  degrees  of  difficulty).  This  part  is
+2021
+assembly  language  will  be  used  to  execute  the  code.  Finally,  you  will  create  a  test  program.
+Developing  a  compiler  using  LEX  and  YACC
+  Development  of  a  compiler  for  a  simplified  C-like  language  and
+1.  OBJECTIVE
+of  the  interpreter  of  an  assembly  language
+Machine Translated by Google
+  arithmetic  operations  defined  by  the  following  mathematical  symbols:  +,  -,  *, /,  =  and
+underscore
+memory  space.
+first  phase
+  Separators:  space,  TAB,  and  comma
+main().  This  declarative  part  must  be  placed  before  the  instructions,  without  fail.
+;
+  Integers  must  be  recognized  in  both  decimal  and  exponential  form
+First,  we  will  create  the  lexical  analyzer  that  detects  typed  words.
+(e.g.,  `int  toto,  mimi=5;`)  or  the  declaration  of  several  constants  on  the  same  line.  In  this
+  the  end  of  line  \n
+  no  other  function  calls  are  recognized  by  our  simplified  C  language,  in  a
+temporary  results  (see  course  section  5.3.4  of  chapter  3).  The  release  of
+The  data  is  stored  in  an  array-  type  data  memory ,  with  a
+which  indicates  the  tokenized  word  read.  Once  the  lexicographical  analyzer  has  correctly
+)
+  The  printf()  function  has  only  one  parameter:  the  variable  whose  value  should  be  displayed
+  Our  C  language  allows  the  declaration  of  multiple  variables  on  the  same  line
+as  in  classic  C  programming
+In  the  second  step  we  will  create  the  parser  which  analyzes  our
+  Our  C  language  distinguishes  between  lowercase  and  uppercase  letters.  The  keywords  of
+  Integer  variables  (keyword:  int )  and  their  names.  The  name  of  a  variable  or  a
+The  constant  must  begin  with  a  letter  and  can  contain  letters,  numbers ,  and  the
+  Constants  and  variables  can  only  be  declared  within  the  function.
+In  this  case,  don't  forget  to  allocate  memory  for  each  of  the  declared  variables  and/or  constants.
+The  first  area  is  reserved  for  declared  variables  and  constants ,  and  the  second  area  for
+" "
+(tokens)  specific  to  our  language  (as  described  above)  and  displays  a  message  on  the  screen
+C-type  language  and  produces  the  corresponding  assembler  code  as  output.
+Once  developed,  we  will  modify  the  lexical  specification  in  order  to  pass  these  typed  words  to  YACC.
+parentheses  (
+  the  end  of  an  instruction  signaled  by
+Languages  will  only  be  recognized  if  they  are  written  in  lowercase.
+_
+Description  of  the  assembly  language  to  be  used:
+Machine Translated by Google
+DIV  operation  code  4
+if  operand  1  is  at  address  50,  operand  2  is  at  address  55  and  the  result
+An  integer  code  of  1  is  assigned  for  a  true  result  and  0  for  a  false  result.
+COP  @result  @operand
+-  assignment
+JMP  instruction  number
+-  division
+AFC  operation  code  6
+operation  code  ADD  1
+-  comparison
+MUL  2  operation  code
+-  subtraction
+MUL  @result  @operand1  @operand2
+-  copy
+COP  5  operation  code
+The  known  instructions  are:
+-  addition  of  the  2  operands:
+6
+AFC  @constant  value  result
+-  skip  if  the  condition  is  false
+JMF  @X  instruction  number
+lower :
+SOU  @result  @operand1  @operand2
+JMP  7  operation  code
+This  coding  will  allow  for  easier  interpretation.
+ADD  @result  @operand1  @operand2
+DIV  @result  @operand1  @operand2
+at  address  250  we  generate:
+example :
+-  unconditional  jump
+-  multiplication  of  the  2  operands:
+operation  code  SOU  3
+JMF  operation  code  8
+1  250  50  55
+Machine Translated by Google
+second  file.
+i  =  3;
+The  result  displayed  by  the  interpreter  on  the  screen  will  be:
+SUP  @result  @operand1  @operand2
+So,  as  a  final  step  you  will  test  the  developed  compiler  and  interpreter.
+PRIC  operation  code  C
+After  your  parser  outputs,  you  will  write  the  code  instructions.
+operation  code  EQU  B
+}
+INF  @result  @operand1  @operand2
+operation  code  INF  9
+35
+hand()
+j=4;
+-  print
+3
+operation  code  SUP  A
+superior :
+Thirdly,  you  will  develop  the  assembler  language  interpreter  by
+{ int  i,  j,k ,r;
+PRI  @result
+the  corresponding  assembler  in  plain  text  in  a  first  file,  as  well  as  the  encoded  version  in  a
+using  LEX  and  YACC  (from  the  previously  generated  encoded  version).  This  interpreter  will  display
+k=8;
+printf(r);
+equal :
+EQU  @result  @operand1  @operand2
+On  the  screen  is  the  result  of  our  program  written  in  C  language  and  which  uses  the  printf()  function.
+r=(i+j)*(i+k/j) ;
+Example :
+printf  (i) ;
+Machine Translated by Google
+  Error  handling  -  optional
+  Implementation  of  pointers  -  optional
+  Function  implementation  -  optional
+the  implementation  of  pointers.
+error  and  the  line  on  which  the  error  is  initially  located.
+You  will  add  conditional  expressions  as  well  as  if  and  while  statements
+Next  we  will  present  the  two  software  programs  used:  LEX  and  YACC.
+with  the  same  syntax  as  the  C  language.  You  will  make  the  necessary  modifications  to
+the  analysis  of  the  input  string.
+You  are  going  to  add  the  implementation  of  pointers  in  the  C  language.  You  are  going  to  do  the
+compiler.  You  will  also  add  the  necessary  assembler  instructions  for
+You  will  add  the  implementation  of  functions  in  the  C  language.  You  will  do  the
+Secondly,  it  is  necessary  to  be  able  to  analyze  an  error  in  order  to  then  continue
+8
+the  implementation  of  functions.
+Initially,  a  simple  error  handling  system  needs  to  be  implemented  at  the  level
+of  the  compiler.  It  will  detect  when  an  error  has  occurred  and  display  a  message.
+level  of  your  compiler's  lexical  and  syntactic  analyzer.
+  Implementation  of  conditional  expressions  for  if  and  while .
+necessary  modifications  to  the  lexical  and  syntactic  analyzer  of  your
+necessary  modifications  to  the  lexical  and  syntactic  analyzer  of  your
+compiler.  You  will  also  add  the  necessary  assembler  instructions  for
+Machine Translated by Google
+Lexicographical  
+language  analyzer
+C.  The  user  specifications  provided  as  LEX  data  are  converted  into  a
+Fig.2  Using  the  lexical  analyzer.
+(program  C)
+C-shares
+Fig.1  Lexical  analyzer  generator.
+Lexicographical  
+language  analyzer
+(executable)
+executed  each  time  a  token  is  recognized.  If  the  input  stream  contains  expressions  that
+Lexical  
+specifications  
+of  the  language
+are  not  recognized,  they  are  copied  to  the  output  without  any  processing.
+LEX  is  a  tool  that,  starting  from  the  description  of  the  lexicography  of  a  language  (data
+input)  generates  an  associated  lexicographic  analyzer.  This  generated  analyzer  is  a  program
+code  (actions)  also  provided  by  the  user.
+a  program  that  recognizes  a  series  of  terminals  (tokens)  and  also  executes  fragments  of
+Output  chain
+lexical  specifications.  As  the  input  stream  is  processed,  actions  are
+The  lexicographic  analyzer  must  then  be  compiled  before  it  can  be  used.
+The  data  for  this  executable  program  must  be  a  string  conforming  to  the
+Input  string
+LEX
+2.  LEX:  Lexical  analyzer  generator
+2.1  Introduction
+Machine Translated by Google
+%%
+asked  about  these.
+characters  of  this  type  (repetition);  finally,  $  indicates  "end  of  line".  No  action  is
+Noticed:
+[ \t]+  printf("  ");
+The  lexical  specifications  of  the  language  being  processed  are  described  in  a  language  that  will  be
+10
+to  be  copied  on  output.
+The  specifications  are  as  follows:
+Here  we  see  the  use  of  an  action  (printf).
+[ \t]+$ ;  (note:  there  is  a  space  before  \t)
+Examples:
+,
+The  yylex()  function.  This  function  recognizes  defined  expressions  and  performs  the  processing.
+No  action  is  performed.  The  square  brackets  define
+The  program  generated  by  Lex  is  stored  in  a  file  named  lex.yy.c  which  contains
+one  or  more  blanks  or  tabs
+presented  in  section  2.2.  Before  that,  we  will  give  two  examples.  The  sole  purpose  is  to
+to  give  an  idea  of  this  language.
+1.  A  program  that  removes  spaces  and  tabs  at  the  end  of  each  line
+The  class  formed  by  the  whitespace  and  tab  characters;  the  +  sign  means  "one  or  more"
+%%
+The  specification  contains  the  delimiter  %%  to  indicate  the  start  of  the  specification
+rules.  In  this  example  there  is  only  one  rule  which  says  that  every  time  we  encounter
+if  specified,  then  the  yylex()  function  will  ignore  that  configuration.  Any  other  combination  will
+2.  Program  that  replaces  several  whites  or  tabs  with  a  single  white.
+Machine Translated by Google
+In  normal  mode,  the  rules  have  2  parts:
+definitions
+The  general  format  of  a  lexical  specification  for  a  language  in  LEX  is  as  follows:
+%%
+user  subroutines
+The  definitions,  subroutines,  and  the  second  %%  (if  there  are  no  subroutines)
+rules
+  in  the  second  part  ÿ  the  action  to  be  taken  when  this  expression  is  found.
+Examples:
+A  simple  LEX  program  is  as  follows:
+int  printf("found  keyword  INT");
+No  definition,  no  rules.  The  effect  of  this  program  is  to  copy  the  string
+from  input  to  output  without  any  modification.
+programs)  are  optional.
+1.  %%
+This  program  searches  the  input  data  for  the  word  "int"  and  displays  the  output.
+%%
+message  "found  keyword  INT".
+hello  printf  ("hello");
+world  printf("world");
+sea  printf  ("sea");
+This  program  can  represent  the  beginning  of  an  English-to-French  translator.
+The  definitions  will  be  addressed  in  section  2.6.
+The  first  %%  must  always  be  present  to  mark  the  beginning  of  the  period.  The  most
+  in  the  first  part  ÿ  the  expression  that  must  be  found;
+%%
+2.  %%
+2.2  LEX  Sources
+Machine Translated by Google
+^
+"  \  [ ]
+2.3  Typed  words  (tokens)
+- ? .  *  +  |  ( )  $ /  { }  %  <  >
+12
+newline
+Example:
+[^abc]+  defines  the  repetition  (+)  of  letters  of  the  alphabet  except  a,  b  and  c(^).
+This  same  operator  can  be  used  for  the  portable  specification  of  special  characters
+The  characters  used  as  operators  are  as  follows:
+\b
+as :
+text  of  a  token;
+  The  operator  "  indicates  that  everything  between  the  signs  "  "  should  be  considered  as
+backspace
+Example:  Expressions
+"xyz++"
+2.3.1  Operators
+repetitions,  choices  or  other  rules  for  composing  these  tokens.
+In  general,  an  expression  contains  token  characters  and  operators  that  specify
+In  the  preceding  examples,  the  expressions  are  reduced  to  a  token.
+A  token  is  a  string  of  characters  (letters  or  numbers)  that  we  want  to  detect.  In  the  case
+\n
+xyz\+\+
+We  will  now  go  into  detail  about  each  operator.
+They  all  have  the  same  meaning.  These  expressions  search  for  the  string  xyz++  in  the  stream
+If  you  wish  to  use  them  as  characters  in  a  token,  they  must  be  preceded  by  the  symbol  \.
+The  action  of  these  operators  is  as  follows:
+xyz"++"
+TAB
+  The  \  operator  indicates  that  the  sign  that  follows  it  should  be  treated  as  a  character  of  a  token.
+The  choice  between  these  two  options  is  a  matter  of  personal  preference.
+Machine Translated by Google
+  The  operator  [ ]  delimits  classes  of  characters.  The  meaning  of  operators  is  not
+[az]+  means  all  lowercase  strings;
+;
+  The  ^  operator  indicates  that  the  class  is  composed  of  the  complement  of  the  characters
+Example:  [^abc]  represents  the  class  of  all  characters  except  a,  b  and  c;
+[^a-zA-Z]  represents  the  class  of  characters  that  are  not  letters.
+  The  operator ?  means  that  the  element  in  front  of  it  is  optional;
+  The  +  operator  signifies  one  or  more  occurrences  of  the  character  or  class  of
+taken  into  account  when  these  are  between  [ ],  with  the  exception  of  the  operators  \,  -  and
+Noticed
+  Repetition  operators
+is  usually  used  to  recognize  identifiers  in  languages  of
+Example :
+specified.  This  operator  always  appears  between  square  brackets.
+  the  operator  -  indicates  the  range  of  variation;
+  The  *  operator  indicates  any  number  of  occurrences  (including  0)  of  the  character
+If  we  had  written  xyz"+  "+,  we  would  have  expressed  the  repetition  of  the  token  xyz+.
+Noticed :
+^
+Example  [a-z0-9<>]  means  the  class  of  lowercase  characters  between  a  and  z,  at
+The  character  ^  must  be  in  the  first  position  between  the  brackets.
+Example:  ab ?c  means  either  the  string  abc  or  ac,  that  is,  the  appearance  of  b  in  this
+previous  characteristics;
+This  expression  is  optional.
+Example :  [abc]  is  a  token  consisting  of  a  single  character  which  can  be  either  a,  b,  or  c.
+[A-Za-z][A-Za-z0-9]*  all  strings  that  begin  with  a  letter.  This  expression
+or  the  character  class  that  precedes  it;
+to  which  we  add  the  numbers  between  0  and  9,  the  symbols  "smaller"  and  "larger".
+  the  operator.  means  any  character;
+Machine Translated by Google
+a{3}  searches  for  exactly  3  occurrences  of  "a"
+Example:  (ab|cd+) ?(ef)*  can  represent  "abefef",  "efefef",  "cdef",  "cddd"
+Example:  ab|cd  means  either  ab  or  cd.
+  The  operators  { and }  specify  either  repetitions,  if  numbers  are  between  them,  or
+  the  |  operator  is  used  in  the  construction  of  alternative  expressions;
+complicated;
+2.3.2  Operator  Priority
+Operators  placed  on  the  front  lines  have  a  higher  priority  than  those  placed  on
+The  last  lines  (decreasing  priority).  On  the  same  line,  operators  have  priority.
+  The  ^  operator  is  used  to  recognize  expressions  that  appear  at  the  beginning  of  a
+Example:  {digit}  searches  for  the  string  "digit"  and  replaces  it  with  the  corresponding  definition;
+next  decreasing  order:
+14
+line.  This  usage  should  not  be  confused  with  the  complementarity  operator,  because
+but
+programming.
+Example:  ab$  recognizes  the  expression  ab  if  it  appears  at  the  end  of  the  line
+a  definition  if  there  is  a  name  between  them;
+not  “abcd”,  “abc”  or  “abcdef”.
+  The  operator  ( )  is  used  to  group  alternative  expressions  into  larger  expressions
+,
+ab/\n  is  equivalent  to  ab$
+  The  $  operator  is  used  to  recognize  expressions  that  appear  at  the  end  of  a
+This  always  appears  between  brackets,  as  specified  above;
+line ;
+a{2, }  searches  for  occurrences  of  "a"  2  or  more  times;
+a{1,5}  searches  for  occurrences  of  groups  of  1  to  5  "a";
+Machine Translated by Google
+Context
+Escape  characters
+When  an  expression  (defined  as  described  above)  is  recognized,  the  program
+Definitions
+Concatenation
+* ?  +
+  the  global  variable  yyleng  which  represents  the  number  of  characters  in  the  expression  found;
+For  more  complex  actions,  there  is  a  series  of  functions  and  global  variables.
+[az]+  printf("%s",  yytext) ;
+\special  characters
+$  ^
+Example:  To  count  the  expressions  found  and  the  number  of  characters  processed,  we  write:
+It  does  nothing.
+2.3.3  Actions
+A  character,  repetition
+Alternative
+Example:  To  print  the  expression  found,  the  action  to  take  is:
+Note:  LEX  accepts  expressions  with  a  maximum  length  of  100  characters.
+{name}
+the  expression  found;
+[a-zA-Z]+  {words++;  chars  +=yyleng;}
+Operator  used  for  grouping
+Expressions  in  brackets
+The  simplest  action  is  the  null  action  ";",  that  is,  we  recognize  the  expression  and  we
+"…"
+  the  global  variable  yytext,  which  is  a  pointer  to  a  string  of  characters  that  contains
+The  last  character  of  an  expression  can  be  accessed  as  follows:
+|
+(…)
+yytext[yyleng-1]
+Expressions  in  quotation  marks
+Generally,  fragments  of  code  written  in  C  language,  provided  by  the  user.
+[az]+  ECHO;
+[ …]
+This  action  is  very  commonly  used;  it  can  be  written  more  simply:
+The  function  generated  by  LEX  will  perform  the  actions  specified  following  the  definition.  The  actions  are,
+as:
+Machine Translated by Google
+indicates  that  the  next  recognized  token  will  be  added  to  the  current  value  of  yytext  instead
+}
+Input:  integer  32
+{printf("%d  ÿ  %s\n",  yyleng,  yytext);Example:  "xyz+"
+16
+Entrance:
+printf("%d  ÿ  %s\t  ",  yyleng,  yytext);
+\n.*  { strcpy(buffer,  yytext+1);
+Examples:
+lexical  rules  are  defined.  The  output  of  this  example  is  therefore  as  follows:
+yyless(n)  where  n  represents  the  number  of  characters  we  want  to  keep  in  yytext.
+It  was  returned  to  the  lexical  analyzer  for  analysis.
+Output:  integer  1ÿt  1ÿe  1ÿg  1ÿe  1ÿr  1ÿ"  "  1ÿ3  1ÿ2
+.
+To  concatenate  two  expressions,  we  use  the  `yymore()  `  function .
+This  specification  saves  the  current  line  in  a  local  buffer.  The  expression  \n.*  detects
+Exit: 4  ÿxyz+
+yyless(2); }
+printf("%s",  yytext);
+As  soon  as  we  detect  "integer"  in  the  input  stream,  we  will  display  "integer",  we  keep  in
+Concatenation
+yymore();}
+.
+the  following  will  be  displayed  xyz+"expression".
+If  you  want  to  remove  the  last  characters  from  an  expression,  you  use  the  function
+2.  char  buffer[400];
+%%
+yytext  the  first  2  characters  and  from  the  3rd  character  onwards  the  analysis  is  restarted  according  to  the
+a  newline  character  and  the  entire  line  following  it.  After  that,  the  line's  contents  are  saved  in  the
+,
+yyless(1);
+to  replace  this  value.  The  value  of  yyleng  is  modified  accordingly.
+xyz+32
+As  soon  as  we  detect  xyz+  in  the  input  stream,  we  will  display  4  ÿ  xyz+  and  the  expression  that
+1.  "integer"  { printf("%s\t  ",  yytext);
+buffer
+xyz+32
+Machine Translated by Google
+2.4  Access  to  input/output  subroutines
+2.5  The  ambiguity  of  the  rules
+Hey
+a  program  that  will  not  recognize  instances  of  "he"  within  "she".  If  one  desires
+For  this,  we  use  the  following  functions:
+  output(c)  ÿ  writes  the  character  c  to  the  output;
+defined  first.
+If  the  input  data  stream  contains  "integer",  it  will  be  treated  as  a  word.
+1.  The  longer  expression  is  preferred.
+Example:  integer printf("Keyword\n");
+\n
+input().
+is  called  every  time  EOF  is  detected.  It  can  be  used  to  open  a  new
+yywrap()  returns  1  when  EOF  is  detected.
+h++;
+[az]+
+|
+  unput(c)  ÿ  puts  the  character  c  into  the  input  data  stream  to  be  read  later  by
+  input()  ÿ  gives  the  following  character;
+.
+Another  function,  which  can  be  redefined  by  the  user,  is  yywrap(),  a  function  that
+she  s++;
+The  input  expression  corresponds  to  several  rules;  LEX  chooses  according  to  the  following  criteria:
+2.  For  the  same  length,  LEX  prefers  the  rule  that  appears  first.
+In  LEX,  a  character  is  only  taken  into  account  once.
+;
+file  at  the  end  of  the  current  file  to  continue  lexical  analysis.  If  it  is  not  modified,
+key,  because  even  if  both  rules  detect  expressions  of  the  same  length,  the  integer  rule  is
+printf("Identifier\n");
+We'll  ignore  everything  except  "she"  and  "he".  Since  "she"  includes  "he",  LEX  will  generate  a
+LEX  can  work  with  specifications  that  contain  ambiguities.  When
+Example:
+Machine Translated by Google
+2.6  Definitions
+To  recognize  instances  of  "he"  within  "she",  the  REJECT  action  must  be  used.
+[Ee][-+]?{D}+
+used  by  LEX.  These  can  appear  both  in  the  definitions  section  and  in  the
+D
+in  the  source  code.
+2.  Any  string  of  characters  enclosed  between  %{ and  %}  is  copied  as  is  (the  delimiters  are
+The  elements  of  the  expression  %%  are  global  variables.  The  comment  lines  are  also  copied.
+|
+and  determines  the  association  of  the  expression  with  the  noun.  The  two  fields  must  be  separated.
+%%
+The  code  performed  by  Lex  is  copied  into  the  main  program.  There  are  two  rules  for  achieving  this:
+18
+the  division  of  input  streams  into  terminals,  but  we  want  to  detect  the  appearance  of  certain
+Example:  recognizing  floating-point  numbers
+means  "move  to  the  next  alternative".  Generally,  REJECT  is  useful  when  you're  not  looking  for...
+printf("integer\n");
+1.  Any  line  that  is  not  part  of  a  rule  or  action  and  that  begins  with  a  blank.
+{D}*"."{D}*({E})?
+less  by  a  space  or  a  TAB  and  the  name  must  begin  with  a  letter.
+expression
+[0-9]
+printf("real\n");
+{D}+
+rules  section.  LEX  transforms  the  rules  into  a  program.  Any  action  that  is  not
+The  user  needs  new  facilities  to  define  the  variables  that  will  be
+eliminated).  Any  line  not  included  between  these  delimiters  and  starting  at  the  first
+position  will  be  treated  by  LEX  as  a  substitution  with  the  format:
+configurations  that  are  partially  overlapping.
+name
+{D}+{E}
+E
+or  a  TAB  is  copied  into  the  program.  Variables  defined  before  the  first  appearance
+Machine Translated by Google
+2.8  Lex  and  YACC
+2.7  Usage
+3.  Compiling  programs  with  a  C  compiler.
+}
+recognize  the  tokens  in  the  input  stream.  In  this  case,  the  LEX  rule  must  end  with
+int  yywrap()
+return  1;
+lex  source.lex  or  flex  source.
+gcc  lex.yy.c  -o  an-lex.exe
+LEX  provides  a  function  yylex()  -  a  lexical  analyzer.  yylex()  is  exactly  the  name
+so  that  YACC  is  informed  of  the  token  found  by  the  lexical  analyzer.
+yylex() ;
+return  token_name;
+1.  In  the  functions  section  (last  part)  of  your  lexical  analyzer,  you  need  to  add:
+Compiling  a  LEX  program  is  done  by  following  the  steps  below:
+%%
+{
+return  1;
+This  operation  will  generate  the  C  program  lex.yy.c
+The  main()  function  must  also  be  removed  from  the  lexical  analysis  file  in  LEX.
+{
+}
+2.  Generating  the  program  in  C  language  using  LEX
+will  generate  the  executable  lexical  analyzer  an_lex.exe
+requested  by  YACC  for  the  lexical  analyzer.  This  function  is  called  by  YACC  for
+int  main()
+Machine Translated by Google
+The  structure  is  recognized.  If  the  "input  language"  is  a  computer  language,  the  C  code  performs
+well  defined.  In  fact,  any  program  can  be  seen  as  a  parser  that  accepts
+The  input  data  stream  used  by  different  programs  has  a  structure
+semantics
+entry
+input  language  and  C  code  fragments  that  must  be  executed  each  time  a
+The  input"  generates  the  associated  parser.  Users  specify  the  structure  of  the
+execution  machine  assembler.
+generally  a  translation  of  the  structure  of  the  source  (input)  language  into  instructions
+entry
+C  language  which  performs  syntactic  analysis  of  input  data.
+Source  written  in  C
+the  parser  and
+analyzer
+Description  of  the
+language  syntax
+programming  or  as  simple  as  a  string  of  numbers.
+C  code  fragments
+translation
+a  certain  "input  language".  An  "input  language"  can  be  as  complicated  as  a  language
+YACC  is  an  instrument  that,  starting  from  the  description  of  the  syntax  of  the  "language"
+(translation)  of  the  language
+20
+YACC  transforms  the  input  language  specifications  into  a  program  written  in
+3.  YACC:  Syntax  analyzer  generator
+YACC
+YACC  -  Yet  Another  Compiler  Compiler
+Machine Translated by Google
+terminals  with  the  input  language  syntax  are  then  checked.  Each  time  a  rule  is
+rules  describing  the  syntactic  structure,  program  fragments  that  represent  the
+Data:  day  '.'  month  '.'  year;
+(tokens)  already  recognized  by  the  lexical  analyzer  which  passes  them  to  the  syntactic  analyzer.
+YACC  users  provide  input  stream  specifications,  which  include
+translation).
+The  syntax  rules  are  described  by  defining  for  each  non-terminal  (placed  at
+left  of : ),  the  composition  of  terminals  and  non-terminals  (placed  to  the  right  of : ).
+Example:
+function  of  the  lexical  analyzer  to  recognize  terminals.  The  conformity  of  the  sequence  of
+Data:  day  '/'  month  '/'  year;
+The  symbols  ":"  and  ";"  are  delimiters  for  a  syntax  rule.
+compilers  for  programming  languages  for  graphics  printers,  etc.
+Fig.1  YACC
+Using  YACC,  you  can  create  compilers  for  C,  Pascal,  Fortran,  or...
+actions  to  be  performed  and  specifications  for  the  primary  processing  of  input  data.  YACC
+generates  a  function  that  performs  input  data  validation.  This  function  calls  the
+We  will  then  detail  how  to  express  rules  and  actions.
+Once  recognized,  the  instructions  specified  by  the  user  are  executed  (fragments  of  C  code).
+where  "day",  "month",  "year"  are  previously  defined  structures,  terminals
+3.1  Introduction
+Machine Translated by Google
+3.2  Basic  Specifications
+Tabs  are  ignored.  Comments  are  limited  by /*  ….  */  as  in  C.  The  rules
+Example:
+%%
+once.
+It  is  not  necessary  for  all  rules  with  the  same  left-hand  side  to  appear  together.  All
+Any  undefined  name  in  the  declarative  part  is  considered  a  non-symbol.
+%%
+22
+This  sometimes  makes  it  easier  to  understand  the  specifications.
+Names  can  be  of  arbitrary  length  and  are  formed  by  letters,  ".",  "_",
+Rules
+'
+The  format  of  a  YACC  specification  is  as  follows:
+Statements
+Example:
+"A"  represents  a  non-terminal  symbol,  and  "BODY"  represents  a  string  of  names  and
+terminal  or  non-terminal.  YACC  requires  that  the  names  of  terminal  symbols  be
+declared  as  such  in  the  declarations  section.
+and  numbers  (not  at  the  beginning  of  the  name).  Uppercase  and  lowercase  letters  are  distinct.
+A:  BCD;
+A  letter  is  specified  by  a  character  between
+A:  BODY;
+and  '.  As  in  C  the  character  "\"  is
+Letters.  The  symbols  ":"  and  ";"  are  delimiters.  Names  can  be  symbols
+Used  for  the  portable  specification  of  special  characters  (newline,  return,  tab,  etc.).  For
+syntactic.
+have  the  following  format:
+%token
+terminal.  Any  non-terminal  symbol  must  appear  in  the  left-hand  side  of  a  rule  at  least
+If  several  rules  have  the  same  left-hand  side,  you  can  use  the  character  "|".  It  is  not
+Programs
+The  declarations  section  may  be  missing,  as  well  as  the  program  section.  The  gaps
+name1  name2  …
+A:  BCD
+For  technical  reasons,  the  NULL  character  (\0  or  0)  should  not  be  used  in  the  rules.
+Machine Translated by Google
+  To  obtain  the  returned  value  of  a  previous  action,  the  current  action  must  use  the
+A:  EF;
+A:  G;
+{printf("message  %d\n",  i);
+i++}
+beginning  (axiom)  is  considered  to  be  the  first  name  on  the  left  side  of  the  first
+Example:  %start  symbol
+The  end  of  the  input  stream  is  signaled  with  a  special  symbol  called  an  "end  marker".  If
+Each  syntactic  rule  is  associated  with  actions.  These  actions  can  return
+To  facilitate  communication  between  actions  and  the  parser,  we  use  the
+  To  return  a  value,  the  action  must  assign  a  value  to  the  pseudo-variable  $$.
+It  has  finished  its  activity.  Otherwise,  it  reports  an  error.
+Example:  an  action  that  simply  returns  the  value  1
+If  a  non-terminal  symbol  needs  to  recognize  an  empty  string,  we  will  write:
+Empty :
+{ $$=1; }
+;
+The  symbols  found  up  to  the  end  marker  correspond  to  a  syntactic  rule;  the  parser  has
+;
+|  EF
+is  a  fragment  of  C  code,  placed  between  curly  braces.
+pseudo-variables  $1,  $2,  …  which  refer  to  the  returned  values  of  the  components  of  the
+Example:  1.  Consider  the  rule
+Start  symbol.  The  parser  recognizes  this  symbol.  By  default,  the  symbol  of
+right  side  of  a  ruler,  traversed  from  left  to  right.
+Example:  Syntax  rule  with  actions
+A:  '('  B  ')'
+Among  all  the  non-terminal  symbols,  there  is  one  very  important  one.  This  is  the
+different  values  and  can  use  the  values  returned  by  other  actions.  An  action
+|  G
+rule.  If  desired,  this  explicit  symbol  can  be  declared  using  the  keyword:  %start
+The  $  symbol  is  represented  as  follows:
+3.3  Actions
+Machine Translated by Google
+A :  B;
+expr:
+Actions  that  are  not  at  the  end  of  a  rule  are  considered  by  YACC  as
+2.  The  analysis  tree  can  be  generated  using  actions  of  the  following  type:
+{$$  =  node('+',  $1,  $3); }
+The  value  returned  by  this  action  is  the  value  of  "expr"  which  is  between  the  parentheses.
+{ $$  =  1;}
+node(L,  n1,  n2)
+The  effect  is  to  assign  the  value  1  to  x  and  to  assign  the  value  returned  by  C  to  y.
+HAS :
+then  $2  represents  the  value  returned  by  C  and  $3  the  value  returned  by  D.
+node  created.
+In  some  applications  (e.g.,  C  compilers)  the  output  is  not  the  direct  result
+By  default,  the  value  of  a  rule  is  the  value  of  the  first  element  of  that  rule  (that  is-
+A:  B
+{ $$  =  $1;}
+expr  '+'  expr
+B
+2.  expr
+output.  These  syntax  trees  are  constructed  using  the  following  technique:
+:  '('  expr  ')'  { $$  =  $2; }
+new  non-terminal  symbols;  the  rule  that  analyzes  these  symbols  is  the  empty  string.
+generates  a  node  with  the  label  L,  having  descendants  n1  and  n2,  and  which  returns  the  index  of
+24
+actions.  Actions  build  a  grammatical  parsing  tree  structure  that  generates  the
+Actions  must  be  taken  before  a  rule  is  fully  analyzed.  YACC
+C
+A:  BCD;
+1.  We  write  a  function  (in  C)  called  "node"  such  that  the  call
+Example :
+(say  $1).  For  this,  the  rules  of  type
+require  no  action.
+In  the  previous  examples,  the  actions  were  placed  at  the  end  of  the  rule.  Sometimes,  it
+allows  you  to  write  actions  inside  the  rule.
+{ x  =  $2;  y  =  $3;}
+Machine Translated by Google
+int  c;
+the  symbols  "%{ "  and  "%}".
+must  be  followed  by  a  positive  integer.  Tokens  and  characters  that  are  not  followed
+%{ int  toto  =  0;  %}
+Example :
+extern  int  yylval;
+The  YACC  character  selects  the  numeric  value  for  that  character  and  numbers  for  the  others.
+c  =  getchar();
+return  an  integer  that  represents  the  "  token  number  read"  in  the  input  stream.  If  there  is  a
+Example:
+The  user  can  define  other  variables  that  can  be  used  by  actions.
+The  C  "#define"  mechanism  is  used.  By  default,  YACC  chooses  these  numbers.  For  a
+DIGIT  -  is  declared  in  the  declarations  section
+The  lexical  analyzer  is  a  function  that  must  be  named  yylex().  The  function  must
+numbers  of  an  integer  are  assigned  default  numbers,  as  described  above.
+These  variables  must  be  defined  in  the  declarative  part  of  a  YACC  specification  between
+these  tokens  of  numbers  >  257.
+avoid  defining  variables  with  such  a  name.
+The  lexical  analyzer  and  the  syntactic  analyzer  must  "agree"  on  the  numbers  of
+To  assign  a  number  to  a  token,  its  first  appearance  in  the  declarations  region
+switch(c){
+case  '0':
+...
+greater  than  257.  If  the  user  chooses  the  numbering,  they  must  always  choose  for
+yylex(){
+case  '1':
+The  variables  used  by  YACC  have  names  that  begin  with  "yy"  and  the  user  must
+The  value  associated  with  this  token  will  be  assigned  to  the  external  variable  yylval.
+each  token.  These  numbers  can  be  chosen  by  the  user  or  by  YACC.  In  both  cases
+3.4  Lexical  Analysis
+Machine Translated by Google
+This  example  will  return  the  number  corresponding  to  DIGIT  and  its  value  each  time  we
+case  '9':
+}
+finds  a  number  in  the  input  stream.
+or  like:
+Example :
+YACC  detects  this  type  of  ambiguity.  A  more  detailed  report  can  be  obtained  using
+1.
+A  set  of  syntactic  rules  is  considered  ambiguous  if  the  same
+To  get  an  idea  of  how  conflicts  of  this  type  are  resolved,  one  must
+It  can  be  structured  as  follows:
+function  fills  the  automaton's  battery.
+But  this  rule  doesn't  tell  us  how  to  interpret  an  expression  like:
+The  input  string  can  be  structured  in  several  different  ways.
+The  move  function  adds  a  new  symbol  to  the  parsed  string.  This
+expr  –  expr  –  expr
+return  (DIGIT);
+26
+yylval  =  c  -  '0';
+}
+(expr  –  expr)  –  expr
+is  a  natural  way  to  describe  how  a  mathematical  expression  is  formed.
+The  –v  option  is  used  when  compiling  the  YACC  source  file.  You  need  to  look  at  the  y.output  file.
+take  a  look  inside  the  parser.  The  parser  is  a
+expr  –  (expr  –  expr)
+error.
+'-'  
+expr :  expr
+Battery-powered  automaton  that  can  perform  four  functions:  movement,  reduction,  acceptance  and
+expr;
+3.5  Ambiguity  and  conflicts
+Machine Translated by Google
+Let's  return  to  the  previous  example.  We  see  that  after  reading  the  string  "expr  -  expr"
+IF  '('  cond  ')'  statement  ELSE  statement
+The  acceptance  function  is  a  function  that  indicates  that  the  input  stream  has  been  analyzed.
+Or
+The  rules  for  eliminating  these  conflicts  are  as  follows:
+1.  In  the  case  of  a  displacement/reduction  conflict ,  the  displacement  wins.
+The  error  function  indicates  that,  in  the  input  stream,  there  exists  a  substring  that  does  not
+So  our  input  string  will  be  grouped:
+IF  '('  cond  ')'  statement
+Let's  consider  an  example  of  a  programming  language  that  allows  "if"  type  structures
+2. The  reduction  function  is  the  action  performed  by  the  automaton  when  it  has  recognized  a
+4.
+:
+We  have  a  conflict  of  the  displacement/reduction  type.  In  some  cases,  a  conflict  of  the  reduction  type.
+IF  (C2)  S1
+It  can  be  structured  in  2  modes:
+ELSE  S2
+and  that  it  meets  the  specifications.
+2.  In  the  case  of  a  reduction/reduction  conflict ,  the  rule  that  appears  is  chosen.
+Example:  Here  is  another  example  of  the  power  of  YACC  to  resolve  ambiguities.
+}
+In  these  IF  and  ELSE  rules,  IF  and  ELSE  are  terminals,  and  "cond"  and  "statement"  are  non-terminators.
+3.
+IF  (C1)  {
+statement
+/  reduction  may  appear,  but  never  a  move/move  type  conflict .
+IF  (C1)  {
+corresponds  to  no  specification.
+terminals.  “cond”  describes  a  condition  and  “statement”  describes  a  chain  of  actions.
+If  the  input  is  of  type:
+Rule.  This  function  empties  the  automaton's  battery.
+IF  (C2)  S1
+–  then  –  else”.
+ELSE  S2
+|
+expr  –  (expr  –  expr)
+IF  (C1)  IF(C2)  S1  ELSE  S2
+first  in  the  specifications.
+Machine Translated by Google
+IF  (C1)  statement
+IF  (C1)  statement.
+To  avoid  the  risk  of  problems  related  to  ambiguities,  it  is  best  to...
+concept  of  operator  priority  levels  and  information  about  their  associativity.
+IF  (C1)  statement  ELSE  S2
+The  association  and  priority  of  operators  can  be  specified  in  the  area
+will  be  moved  and,  after  reading  the  S2  symbol,  the  reduction  of  the  IF  –  ELSE  rule  of  the  part
+followed  by  a  list  of  terminal  symbols  (tokens).  All  the  symbols  that  are  found  on  a
+The  second  interpretation  is  the  usual  one  for  many  programming  languages.
+declarative.  This  is  done  using  the  keywords:
+This  string  can  be  considered  an  instance  of  the  rule
+only :
+One  might  think  that  this  chain  will  be  considered  an  instance  of  the  rule
+specifying  the  notion  of  priority.  This  is,  for  example,  the  case  in  the  syntactic  analysis  of  expressions
+%right
+There  are  situations  where  the  rules  defined  previously  are  not  sufficient  for
+%left
+ELSE  S2
+The  right  will  be  made,  followed  by  the  reduction  of  the  rule
+}
+,
+avoid  when  giving  your  syntax  rules  (see  the  course).
+arithmetic.  The  majority  of  arithmetic  constructions  can  be  described  using  the
+The  same  line  has  the  same  priority.  Terminal  symbols  that  are  on  the  first
+Let's  analyze,  for  this  example,  the  situation  where  the  parser  has  managed  to  analyze
+IF  (C1)  IF  (C2)  S1
+%noassoc
+We  obtain  the  second  interpretation,  the  correct  one.
+Disputes  involving  displacement/reduction  always  result  in  the  displacement  party  winning,  ELSE
+SO
+This  was  true  if  the  expression  was  reduced  before  making  the  move.  But  as  the
+28
+After  reading  the  rest  of  the  expression
+3.6  Priorities
+Machine Translated by Google
+–
+expr:
+expr
+('  before  a  number).  The  keyword  %prec  modifies  the  priority  of  an  operator
+expr  '+'  expr
+%left  '*'  '/'
+%left  '*'  '/'
+Example:  Specifications  for  arithmetic  expressions
+|
+within  the  framework  of  a  syntactic  rule.  It  must  appear  immediately  after  the  rule  has  been
+of  the  operator  '*'.
+increasing).
+lines  have  a  lower  priority  than  those  on  the  following  lines  (priority
+expr
+expr
+expr
+;
+|
+right  and  the  keyword  %noassoc  is  used  to  describe  operators  without  associativity  (like
+some  FORTRAN  operators).
+expr
+defined.  In  the  following  example,  the  unary  operator  '  is  given
+-
+Example :
+greater  than  the  previous  operators  and  left  associativity.
+The  input  string  conforms  to  this  specification:
+the  same  priority  and  left  associativity  due  to  the  term  "left";  *  and /  have  a  higher  priority
+'*'
+The  keyword  %right  is  used  (as  you've  already  guessed)  for  associativity  to
+|
+|
+will  be  structured  as  follows:
+'the  same  priority  as  that
+'='
+expr  '/'  expr
+%%
+expr
+%left  '+'  '-'
+Example :
+unaires  (like  '
+When  using  such  a  mechanism,  it  is  also  necessary  to  specify  a  priority  for  the  operators.
+These  lines  describe  the  priority  and  associativity  of  four  arithmetic  operators.  +  and  -  have
+'-'
+a  =(b=  (((c*d)  –e)  –(f*g) ))
+|  NAME
+%right  '='
+%left  '+'  '-'
+a  =  b  =  c*d  –  e  –  f*g
+Machine Translated by Google
+|
+'='
+in  front  of  a  correct  expression.
+A  terminal  symbol  declared  using  %left,  %right,  %noassoc  is  no  longer
+expr
+'–'
+|  NAME
+Data  processing  is  initiated  if  an  error  is  found.  Therefore,  the  recovery  problem  must  be  solved.
+The  parser  empties  its  stack  until  it  reaches  the  state  in  which  the  "error"  token  is  allowed;
+generated  a  new  error  message.
+30
+%left  '*'  '/'
+%right  '='
+Example :
+expr:
+|
+expr
+analysis  after  an  error  is  encountered.  The  general  algorithm  for  resuming  analysis  involves
+This  token  can  be  used  in  syntax  rules  and  for  actions  to  correct  them.
+expr
+expr
+%%
+Error  handling  is  a  difficult  field.  Often,  stopping  is  unacceptable.
+To  enable  error  control,  YACC  offers  a  simple,  but  sufficient,  method.
+To  avoid  generating  too  many  error  messages,  the  parser,  after  the
+|
+|
+Error  detected,  remains  in  error  state  until  3  successive  tokens  have  been
+|
+moved  and  reduced  correctly.  If,  during  this  time,  a  new  error  is  detected,  it  is  not
+expr
+;
+'*'
+%prec  '*'
+necessary  (but  it  can)  be  declared  using  %token.
+In  general,  the  terminal  symbol  "error"  is  reserved  for  handling  syntax  errors.
+then  he  performs  the  corresponding  action.
+%left  '+'  '-'
+expr
+'-'
+the  elimination  of  certain  terminals  in  the  input  string,  in  order  to  resume  the  analysis
+expr  '+'  expr
+expr  '/'  expr
+expr
+3.7  Error  Handling
+Machine Translated by Google
+3.8  Usage
+YACC  source_filename
+The  function  is  called,  and  it  will  in  turn  call  the  yylex()  function  to  obtain  the  symbols.
+current  and  will  begin  the  analysis  with  these.
+Example :
+{$$  =  $4 ; }
+the  error  message.
+input.  If  an  error  is  reported,  yyparse()  returns  1.
+' ;'
+1.  Generating  the  program  in  C  language  using  YACC:
+Terminals  and  non-terminals  up  to  ';'.  All  symbols  up  to  ';'  will  not  be
+statement :
+This  operation  will  generate  the  file  y.tab.c,  which  contains  the  function  yyparse().  When  this
+statement :
+input: {printf("Enter  the  last  line");}
+1.
+This  means  that  in  the  case  of  a  syntax  error,  the  parser  will  ignore  the  expression.
+Another  form  of  error  handling  can  be  used  in  programs
+Compiling  a  YACC  program  involves  two  steps:
+They  will  be  moved  and  ignored.  When  the  symbol  ';'  is  encountered,  the  rule  will  be  reduced.
+error;
+error
+where  the  error  occurred.  More  specifically,  the  parser  will  continue  reading  the
+error  '\n'
+interactive.  We  want  the  line  that  had  errors  to  be  reinstated  once  it  has  been  displayed
+;
+input  symbols  by  searching  for  3  consecutive  tokens  that  are  allowed  for  the  expression
+2.
+;
+indicates  that  in  the  case  of  a  syntax  error,  the  parser  will  ignore  all  the
+input
+Machine Translated by Google
+YACC  -d  source_filename
+32
+gcc  y.tab.c  lex.yy.c  –ll  –o  executable_name.exe
+gcc  y.tab.c
+3.  Group  all  the  rules  with  the  same  left-hand  side  together.
+fprintf(stderr,  "%s\n",  s);
+hand()
+}
+And
+obligations:
+;
+  Compiling  this  program:
+use  the  -d  option  when  compiling .
+programs,  other  functions.  For  example,  the  main()  function  which  calls  the  function
+yyparse().  A  yyerror()  function  must  also  be  defined  (a  function  defined  in  the  library  of
+{
+There  are  some  conventions  that  facilitate  understanding,  although  they  are  not
+t
+Example :
+2.  Put  the  syntax  rules  and  actions  on  different  lines.
+return  yyparse();
+'
+yyerror(char  *s)
+For  compiling  the  lexical  analyzer  files  (lex.yy.c)  and  the  analyzer
+The  user  must  specify  in  the  YACC  source  file,  in  the  sub-  area
+4.  Place  the  sign  '
+'
+syntax  (y.tab.c)  requires  using  the  following  command:
+Recommendations  for  writing  specifications
+YACC)  which  indicates  that  a  syntax  error  has  been  encountered.
+'  from  the  end  of  a  rule  on  a  separate  line.
+associates  the  user-defined  token  names  with  the  YACC  code  for  each  token.
+If  we  want  to  generate  the  file  y.tab.h  which  contains  the  #define  type  declarations  which
+or  capital  letters  for  tokens.
+{
+1.  Use  names  that  begin  with
+}
+Be  careful  to  maintain  this  order  for  the  gcc  parameters .
+Machine Translated by Google
+syntactic.
+with  a  shift  of  2  TABs.
+5.  Position  the  actions  of  a  rule  with  an  offset  of  3  tabs  and  the  syntax  rules
+All  these  recommendations  make  it  easier  to  read  the  specifications  file.
+Design  of  a  RISC-type  microprocessor  with  pipeline
+Machine Translated by Google
+1.  Objective
+For  the  2019-2020  academic  year,  FPGA  implementation  is  optional  due  to
+multiplication,  division,  copy  and  assignment  (without  the  jump  and  assignment  instructions)
+with  a  pipeline  corresponding  to  the  assembler  instructions :  addition,  subtraction,
+Note:  The  Material  Architecture  course  and  practical  work  in  the  3rd  year  of  MIC  are  a  mandatory  
+prerequisite  for  this  practical  work.
+2.  Part  One  -  You  will  design  and  implement  a  microprocessor  in  VHDL
+comparison).  You  will  then  synthesize  and  optimize  this  microprocessor  from  the  point  of  view
+of  the  operating  frequency  and  you  will  then  implement  it  on  the  Xilinx  FPGA.
+This  section  is  mandatory.
+Remote  work.  Synthesis  and  performance  analysis  of  the  processor  obtained
+(operating  frequency,  consumption)  remain  mandatory.
+34
+Machine Translated by Google
+Rj  Rk  [Ri]  ÿ  [Rj]  +  [Rk]
+Copy
+architectural  requirements  for  implementing  jump  and  comparison  instructions  (by
+In  this  section  of  the  document,  we  will  present  the  register-oriented  instruction  set  that  you  will
+a  fixed  size  format,  to  facilitate  your  design.
+[Ri]  ÿ  j
+Subtraction
+0x02  MUL  Ri
+0x05  COP  Ri
+OP
+we  propose  to  implement.
+Description
+j
+_
+0x04  DIV
+(Example:  the  branching  unit).  You  will  then  synthesize  and  optimize  this
+All  instructions  occupy  4  bytes,  as  illustrated  in  Table  3.  The  games
+Code
+0x06  AFC  Ri
+Rj  Rk  [Ri]  ÿ  [Rj]  *  [Rk]
+The  register-oriented  instruction  set  you  will  use  is  shown  in  Table  2.  Ri,
+[Ri]  ÿ  [Rj]
+padding ,  in  instructions  requiring  fewer  than  3  operands.  In  other  words,
+Assignment
+Multiplication
+Rj  and  Rk  represent  the  register  numbers  requested  by  the  instruction.  @i  and  @j  represent
+implement  it  on  the  Xilinx  FPGA.  This  second  part  is  optional  in  2019-2020.
+characteristic.  We  propose  that  you  design  a  set  of  register-oriented  instructions  with
+3.  Second  part  -  you  will  add  the  units  to  your  microprocessor
+RJ
+_
+Division
+microprocessor  from  the  point  of  view  of  operating  frequency  and  then  you  will
+Addition
+Instruction  format
+not  all  commercial  microprocessors  possess  this  instruction  set.
+Rj  Rk  [Ri]  ÿ  [Rj]  -  [Rk]
+0x01  ADD  Ri
+[Ri]  ÿ  [@j]
+0x08  STORE  @i  Rj  [@i]  ÿ  [Rj]
+Ri
+Loading
+Rj  Rk  [Ri]  ÿ  [Rj] /  [Rk]
+0x03  SOU  Ri
+Backup
+_
+_
+To  guide  you  in  the  design  of  this  microprocessor,  we  will,  in  the  second
+AB
+Table  2.  Instruction  Set
+is  used  as
+0x07  LOAD  Ri  @j  _
+Memory  addresses.  The  instruction  format  is  fixed  size.  The  value
+Operation
+C
+use.  In  the  third  section,  we  discuss  the  architecture  of  the  microprocessor  that  we
+2.  Assembly  language
+Machine Translated by Google
+used  in  Automata  and  Languages  practical  work  is  not  suitable  for  this  type  of  microprocessor.
+R1  
+0x01
+We  propose  to  implement  a  RISC  -type  architecture  here  with  a  5-pipeline
+R4
+  A  dual-port  read  register  bank,  section  3.2 ;
+Compared  to  the  memory-oriented  instruction  set  of  the  Automata  and  Languages  practicals,  two
+Michel  Cubero's  3rd-  year  Computer  Structure  and  Functioning  course
+  A  data  memory,  section  3.3 ;
+00000001  00000001  00001001  00000100
+Our  microprocessor  will  have:
+Binary:
+loading  allows  copying  the  contents  of  memory  at  address  @j  into  the  Ri  register .
+36
+RJ  register .  These  are  the  only  instructions  allowing  communication  with  memory.  Such  a
+Castan  regarding  the  instruction  cycle,  the  pipeline  and  contingencies.
+Table  3.  Example  of  an  instruction
+  A  hazard  detection  unit,  section  3.6 ;
+Hexadecimal:  0x01
+Instruction:  ADD
+stages  (Figure  4).  This  architecture  must  operate  on  8  bits.  We  reproduce  the  following  in  the  appendix.
+0x04
+New  instructions  have  appeared:  Loading  and  Saving.  The  instruction  to
+The  save  instruction  allows  the  contents  of  the  file  to  be  copied  into  memory  at  address  @i.
+  A  data  path,  section  3.4;
+The  RISC  processor  is  described  as  a  RISC  Load/Store  processor .  Note  that  the  instruction  set
+R9  
+0x09
+  An  arithmetic  and  logic  unit,  section  3.1 ;
+  An  instruction  memory,  section  3.3 ;
+  Pipeline  architecture  on  5  floors.
+  A  control  unit,  section  3.5 ;
+3.  RISC  Microprocessor  Architecture
+Machine Translated by Google
+MEMDILI EX ER
+3.1  The  arithmetic  and  logical  unit
+S(7:0)
+Ctrl_Alu(2:0)
+Instruction  
+memory
+Control,  
+sending,  
+and  random  
+logic
+Figure  5.  UAL
+The  FPGAs  used  (Spartan  6)  contain  hardwired  multipliers,  so  you  can  implement  the
+Figure  4.  RISC  microprocessor  architecture  with  5  pipeline  levels
+.
+Z  and  C  represent,  respectively,  a  value
+We  are  not  asking  you  to  implement  the  division  in  the  2019-2020  academic  year.
+Carrying  (or  carrying)  in  addition.  Arithmetic  operations  can  be  performed  using  the
+N,  O,  Z,  C
+A(7:0)shown  in  Figure  5.  The  Ctrl_Alu  signal  will  inform
+Data  memory
+corresponding  functions  ('+',  '-',  '*',  '/'),  provided  in  the  Xilinx  library.
+Register  
+bench
+ALU
+multiplication  function  using  simply  the  *  sign  in  VHDL
+We  propose  to  implement  an  ALU  with  the  interface
+B(7:0)
+size  of  A  OP  B  >  8  bits),  a  zero  output  (S  =  0)  and  the
+regarding  the  operation  to  be  performed:  Addition,  Subtraction,
+Multiplication  and  Division.  The  flags :  N ,  W,
+negative  output  (S  <  0),  an  overflow :
+As  a  reminder,  we  show  you  an  example  of  how  a  multiplication  works  on
+binary  numbers  (on  4  bits),  in  figure  6.
+Machine Translated by Google
+@B(3:0)
+B(1)=1
+B  =
+B  =  0101
+QA(7:0)
+R  =  00001010
+QB(7:0)
+B  =
+B  = 0101
+allow  reading  two  registers
+ÿ  R(5:1)ÿR(5:1)+0&A
+simultaneously.
+1010A  =
+THE
+B(2)=0
+The  data  present  on  the  DATA  input  are  copied  into  the  address  register  @W.  It  is  assumed  that  the
+@W(3:0)
+A  =
+R  =  00000000
+Figure  7.  Register  bench
+DATA(7:0)
+38
+A  =
+R  =  00110010
+1010
+0101
+R  =  00110010
+@A(3:0)
+R  =  00001010
+CLK
+B(4)=0
+Figure  7.  The  RST  reset  signal  is  active  at
+then  initialized  to  0x00.  @A  and  @B
+B  =
+A  =
+The  diagram  of  this  register  is  presented  at  the
+0:  the  contents  of  the  register  bank  are
+We  propose  to  build  a  bench  of  16
+values
+1010
+R  =  00001010
+The  corresponding  data  is  propagated  to  the  QA  and  QB  outputs .  Writing  data  to  a
+A  =
+B  =  0101
+0101
+1010
+1010
+B  =
+1010
+read  and  write  access.  The
+0101
+RST
+0101
+Figure  6.  Flow  of  a  4-bit  multiplication:  10  *  5  =  50
+Register  access  is  done  via  the  @W,  W ,  and  DATA  entries.  W  specifies  whether  a  write  operation  should  be  performed.
+1010
+1010
+W
+B(3)=1
+ÿ  R(7:3)ÿR(7:3)+0&A
+The  reset  and  writing  will  be  done  synchronously  with  the  clock.
+0101
+A  =
+A  =
+R  =  00110010
+8-bit  registers  with  dual  access
+R  =  00001010
+B  =
+A  =
+Completed.  This  entry  is  active  at  1,  for  a  write  operation.  When  the  write  operation  is  active,  the  data
+3.2  Dual-port  read  register  bank
+3.
+1.
+2.
+4.
+Machine Translated by Google
+OUT(31:0)
+RW
+stored  in  this  memory.  Furthermore,  at  runtime,  we  prevent  any  modification  of  the
+of  the
+Memory  is  provided  by  the  @  input.  To  perform  a  read  operation,  RW  must  be  set  to  1  and
+data
+Memory  contents  at  0x00.  Reading,  writing,  and  resetting  will  be  synchronous  with
+to  implement  this  functionality  directly  in  the  registry:
+Bypass  D  ÿ  Q
+Sometimes,  during  execution,  the  processor  simultaneously  makes  a  read  request  and
+Our  architecture  contains  two  memories:  one  memory  for  data  and  one  memory
+the  CLK  clock .
+instructions
+Figure  8.  Data  memory  and  instruction  memory
+The  IN  input  is  copied  to  memory  at  address  @.  The  reset,  RST,  will  initialize  the
+the  CLK  clock.
+To  simplify  the  design,  we  propose  an  instruction  memory  structure
+@(7:0)
+RST
+@(7:0)
+the  contents  of  this  memory.  It  is  similar  to  a  ROM.  It  is  therefore  devoid  of  inputs
+Memory
+the  sending  unit.  However,  in  order  to  simplify  the  design  of  the  sending  unit,  we  propose
+The  data  storage  must  allow  read  and  write  access.  The  address  of  the  area
+of  the
+OUT(7:0)
+for  the  instructions.  Their  structure  is  shown  in  figure  8.
+RST,  IN  and  RW.  As  with  data  memory,  reading  will  be  synchronous  with
+writing  to  the  same  register.  This  constitutes  a  data  hazard.  This  hazard  can  be  handled  by
+Memory
+If  writing  and  reading  are  on  the  same  register,  then  the  output  QX  ÿ  DATA.
+CLK
+simpler.  We  will  assume  that  the  program  to  be  executed  by  the  microprocessor  is  already
+IN(7:0)
+To  perform  a  write  operation,  RW  must  be  set  to  0.  In  the  case  of  a  write  operation,  the  content  of
+CLK
+3.3  Memory  Bench
+Machine Translated by Google
+To  complete  the  copy:  the  value  to  copy  and  the  destination  register.  This  modification
+possible.  Then,  you  can  integrate  a  new  instruction.  You  will  thus  loop  through  so  many
+Given  this,  we  advise  you  to  proceed  step  by  step.  In  other  words,  we  advise  you
+:
+1.2.  At  the  second  stage,  no  value  selection  in  the  register  bank  is
+40
+1.1.  At  the  first  floor  level,  the  various  fields  constituting  the  instruction  are  placed
+to  begin  by  creating  a  data  path  that  only  takes  into  account  one  of  the
+We  will  now  begin  integrating  the  various  elements  previously
+1.4.  At  the  fourth  floor  level,  no  memory  modification  is  necessary
+a  constant  in  a  destination  register.  Knowing  that  modifying  a  register  should  not  be
+must  be  propagated  to  this  floor.  The  path  followed  by  this  instruction  is  therefore  the  following
+in  the  first  pipeline  (LI/ DI) ;
+destination  are  simply  propagated  in  the  pipeline  (Mem/ RE) ;
+approach.
+1.5.  On  the  fifth  floor,  we  have  all  the  necessary  information
+developed  to  design  a  first  version  of  the  processor.  We  will  create  a  path
+This  is  done  using  the  write  input  of  the  register  bank.
+are  simply  propagated  in  the  pipeline  (DI/ EX) ;
+1  -  We  begin  by  implementing  the  AFC  instruction.  This  instruction  allows  us  to  copy
+simply  propagated  in  the  pipeline  (EX/ Mem) ;
+Required:  the  current  operation  code,  the  value  to  copy,  and  the  destination  register
+For  copying:  the  current  operation  code,  the  value  to  copy,  and  the  register
+data  (shown  in  illustration  6).  To  guide  you  in  creating  this  path  of
+instructions.  You  can  then  test  your  implementation  to  correct  any  errors.
+copy:  the  current  operation  code,  the  value  to  copy,  and  the  destination  register  are
+performed  only  at  floor  5,  the  identifier  of  the  destination  register  and  the  value  to  be  assigned  to  it
+1.3.  At  the  third  floor  level,  no  arithmetic  execution  is  necessary  for  the
+that  there  are  still  instructions  to  implement.  The  rest  of  this  section  presents  an  example
+3.4  Data  Path
+Machine Translated by Google
+source  register  and  not  the  identifier  of  that  register.  To  make  these  changes  without...
+at  the  level  of  the  2nd  floor.  But,  in  no  way,  does  the  path  in  question  pass  through  a
+we  obtain  illustrations  4  and  5.
+The  corresponding  diagram  is  given  in  illustration  1.  In  this  illustration,  OP  represents  the
+same  pipeline.
+The  previous  scheme  is  the  obligation,  when  moving  to  level  2,  to  propagate  the  value  associated  with  the
+depending  on  the  operation  code,  it  propagates  parameter  B  or  the  value  contained  in  the  register
+3  -  Note  that  the  previous  illustrations  include  an  arithmetic  and  logical  unit  without
+to  use  them.  We  will  therefore  include  the  arithmetic  instructions  to  connect  this  ALU
+To  avoid  disrupting  the  proper  functioning  of  the  AFC  instruction,  we  use  a  multiplexer.
+To  propagate,  we  obtain  illustration  3.
+operation  code  and  A,  B ,  and  C  the  operands.  Note,  in  passing,  that  the  path  taken  by
+This  operation  requires,  at  level  5,  the  use  of  a  component  located  schematically
+2  -  Based  on  this  diagram,  the  COP  instruction  can  be  added.  The  difference  compared  to  the
+pointed  to  by  parameter  B.  The  resulting  diagram  is  given  in  illustration  2.
+4  -  By  proceeding  in  the  same  way  for  the  implementation  of  the  LOAD  and  STORE  instructions,
+to  the  data  path.  Using  multiplexers  again  to  determine  the  elements
+Machine Translated by Google
+MUXMUX
+EX/Mem
+Memory
+B
+DI/EX
+OP
+HAS
+DI/EX
+@HAS
+OP
+C
+@HAS
+B
+@RW  OUT
+OP
+Memory
+IN
+W  DATA
+OP
+HAS
+Register  bench
+W  DATA
+IN
+Memory
+data  data Register  bench
+B
+B @RW  OUT
+LI/DI
+B
+HAS
+Memory
+OP
+EX/MemEX/Mem
+instructions
+B
+Register  bench
+OP
+B
+C
+@RW  OUT
+HAS
+B
+S
+C
+@RW  OUT @HAS
+OP
+IN
+OP
+@  @
+@  @
+Memory
+B
+QAQA
+C
+@B
+S
+QB
+Memory
+S
+HAS
+LC
+B
+Memory
+B
+HAS
+@W
+OUT
+QB
+HAS
+data  data
+LI/DI
+@HAS
+LC
+Memory
+HAS
+IN
+LC
+@B@B
+@W
+B
+instructions
+HAS
+HAS
+LC
+OUT
+HAS
+HAS
+W  DATA
+BCtrl_Alu
+W  DATA
+Ctrl_Alu
+S Ctrl_Alu
+LI/DILI/DI
+UAL
+OUT
+@BB
+BHAS
+HAS
+HASHAS
+B
+UAL
+OP
+OUT
+QA
+OP
+B
+DI/EX
+OP
+Mem/RE
+IP
+QA
+DI/EXMem/RE
+C
+B
+QB
+IP
+HAS
+Ctrl_Alu
+C
+UALUAL
+OP
+B
+IP
+@W
+Register  bench
+QB
+Mem/RE
+C
+Mem/RE
+HAS
+OP
+IP
+OP
+C
+B
+EX/Mem
+HAS
+OPOP
+@W
+HAS
+Figure  2:  AFC,  COP  instructionsFigure  1:  AFC  instruction
+42
+Machine Translated by Google
+MUX
+MUXMUXMUXMUX
+MUXMUXMUX
+MUXMUX
+HAS
+OP
+B
+LI/DIMemory
+OUT
+DI/EX
+IP
+HAS
+OP
+HAS
+LI/DI
+DI/EX
+LCLC
+B
+IP
+LC
+OP
+data  data
+OUT
+QB
+DI/EX
+B
+LC
+IP
+QB
+EX/MemEX/Mem
+OP
+Mem/RE
+HAS
+QA
+Memory
+OP
+HAS
+QA
+LI/DI
+Memory
+OP
+IN
+Mem/RE
+B
+Memory
+HAS
+data  data
+B
+OP
+instructions
+@RW  OUT
+B
+UAL
+LC
+Register  bench
+OUT
+Memory
+W  DATA
+IN
+EX/Mem
+W  DATA
+QA@RW  OUT
+LC
+OPOP
+Ctrl_Alu
+LC
+LC
+Register  bench
+EX/Mem
+OP
+IN
+LC
+UAL
+QA
+LI/DI
+@HAS
+@  @
+UAL
+IN
+OUT
+DI/EX
+Register  bench
+UAL
+@RW  OUT
+IP
+OP
+@HAS
+@  @
+Register  bench
+@W
+B S
+@W
+@RW  OUT
+HAS
+B
+@W
+B
+B
+HAS
+LC
+CB
+W  DATA
+C
+B
+Ctrl_Alu
+W  DATA
+Ctrl_Alu
+@B
+C
+Ctrl_Alu
+HAS
+@B
+OP
+S
+HAS
+S
+C
+B
+C
+S
+instructions
+B
+B
+QB
+OP
+Memory
+HAS
+OP
+B
+QB
+Memory
+@B
+OP
+HASHAS
+OP
+B
+C
+@B
+HAS
+BHAS
+HAS
+HAS
+@HAS
+HAS
+Mem/RE
+Memory
+Mem/RE
+C
+HAS
+B
+@W
+@HAS
+HAS
+B
+C
+ADD,  MUL,  DIV,  SOU,  LOAD
+Illustration  4:  Instructions  AFC,  COP,Illustration  3:  Instructions  AFC,  COP,
+ADD,  MUL,  DIV,  SOU
+Machine Translated by Google
+Illustration  6:  Data  pathIllustration  5:  Instructions  AFC,  COP,
+ADD,  MUL,  DIV,  SOU,  LOAD,  STORE
+44 instructions,  instructions,  instructions
+IP
+Register  bench
+LC
+W  DATA
+OUT
+Ctrl_Alu@RW  OUT
+LC
+OP
+B
+HAS
+LC
+S
+OP
+@RW  OUT
+@HAS
+Register  bench
+DI/EX
+B
+OUT
+HAS
+DI/EX
+LC
+Register  bench
+HAS
+HAS
+IN
+OP
+LI/DI
+@HAS
+OUT
+EX/Mem
+LC
+B
+C
+QA
+Mem/RE
+HAS
+OP
+Memory
+LC
+EX/Mem
+HAS
+HAS
+OP
+data,  data,  data
+B
+UAL
+HAS
+C
+QB
+DI/EX
+OP
+IP
+C
+IP
+QB
+HAS
+IN
+Memory DI/EX
+HASHAS
+UAL
+HAS
+S
+OP
+B B
+OP
+@W
+B
+BB
+Memory
+@B
+UAL
+Ctrl_Alu
+OP
+OP
+B
+Mem/RE
+B
+HAS
+C
+UAL
+Mem/RE
+@B
+@W
+@B
+instructions,  instructions,  instructions
+C
+HASS
+S
+@RW  OUT
+W  DATA
+Memory
+W  DATA
+@HAS
+OUT
+W  DATA
+C
+QA
+LC
+LI/DI
+OP
+@W
+B
+HAS
+@  @  
+B
+C
+HAS
+@W
+IN
+LI/DIDI/EX
+IP
+OP
+HAS
+QB
+Memory
+data,  data,  data
+Ctrl_Alu
+HAS
+OUT
+HAS
+QB
+B
+LC
+Memory
+@HAS
+B
+IP
+B
+EX/Mem
+LC
+Register  bench
+Memory
+@  @  
+Memory
+HAS
+B
+OP
+@B
+B
+LI/DI
+HAS
+@RW  OUT
+LC
+B
+OP
+Register  bench
+C
+OP
+B
+HAS
+HAS
+QA
+DI/EX
+B
+OPOP
+LC
+IN
+EX/Mem
+Mem/RE
+OP
+LC
+IN
+HAS HAS
+Memory
+HAS
+OP
+IP
+B
+EX/Mem
+QA
+C
+@RW  OUT
+QB
+LC
+OP
+EX/Mem
+IN
+Mem/RE
+UAL
+@W
+Memory
+HAS
+B
+UAL
+@W
+OP
+B
+OP
+HAS
+LC
+B
+B
+LC
+LI/DI
+W  DATA
+S
+Mem/RE
+OP
+B
+Memory
+B
+OP
+B
+S QA
+LC
+Memory
+OUT
+Ctrl_Alu
+@B
+LC
+@RW  OUT
+HAS
+LC
+C @B
+@HAS
+LI/DI
+HAS
+Ctrl_Alu
+Register  bench
+C
+Ctrl_Alu
+W  DATA
+@HASQA
+QB
+B
+C
+MUX
+MUX
+MUX
+MUX
+MUXMUXMUX
+MUX MUX
+MUX
+MUX
+MUXMUX
+MUX
+MUX MUXMUX
+MUX
+MUX
+MUX
+MUX
+MUX
+MUX
+MUX
+Machine Translated by Google
+Machine Translated by Google
+Control  unit
+Risk  management  –  optional  in  2019-2020
+…
+data  and  branching  hazards.  We  will  focus  on  data  hazards.  In  order  to
+The  instruction  will  be  executed  (stage  5),  the  value  associated  with  register  R1  in  stage  4  will  not  be
+In  addition  to  the  data  path,  you  will  need  to  complete  the  control  procedure,  including  the
+Its  role  is  to  define  the  state  of  the  control  signals  for  the  multiplexers  and  memory  banks.
+In  case  of  detected  hazards,  these  buffers  allow  for  a  delay  in  the  execution  of  lower  stages.
+of  the  first  pipeline  –  the  comparison  between  the  data  from  the  first  pipeline  and  the  second  pipeline
+running.
+[R1]  ÿ  12
+NOP
+[R2]  ÿ  [R1]
+NOP
+Suppose  that  register  R1  contains  14  and  register  R2  contains  8.  At  the  end  of  this  program,
+12  more ,  but  14.  Figure  9  illustrates  this  scenario.  To  solve  this  problem,  we  will...
+We  recommend  using  a  risk  management  entity,  whose  role  will  be  to  inject  "bubbles".
+The  first  instruction  is  located  at  the  level  of  the  second  pipeline  –  and  the  second  instruction  at  the  level
+…
+line  allows  us  to  detect  this  hazard:
+and  other  elements  specific  to  each  stage  of  the  pipeline.  This  control  is  based  on  the  instructions.
+Subsequently,  you  will  face  unforeseen  situations.  There  are  two  types  of  unforeseen  events:  hazards
+To  illustrate  these  situations,  let  us  consider  the  following  program:
+The  value  assigned  to  register  R2  must  be  12.  However,  when  the  writing  associated  with  the  first
+NOP
+NOP
+when  a  conflict  with  the  upper  floors  is  detected.  For  the  previous  example,  when  the
+Machine Translated by Google
+registers.  To  avoid  this,  a  NOP  (NO-OPERATION)  must  be  injected,  which  constitutes  the  bubble.
+In  this  case,  the  clock  of  the  first  pipeline  is  inhibited  while  the  first  instruction
+finish.  However,  be  careful  that  the  "void"  created  by  this  delay  does  not  alter  the  state
+The  resolution  of  other  hazard  cases  follows  the  same  reasoning.
+OPDI_EX  =  AFC  and  OPLI_DI  =  COP  and  ADI_EX  =  BLI_DI
+Machine Translated by Google
+DI  EX  MEM  ERLI
+NOP
+A  =  R2
+Contents  of  the  
+register  bench
+OP  =  COP
+NOP
+B  =  14
+R1  =  14;  R2  =  8
+Entrance
+NOP
+NOP
+DI/EX
+NOP
+A  =  R1
+B  =  14 B  =  12
+NOP
+B  =  R1
+NOP
+OP  =  AFC
+B  =  14
+Mem/RE
+OP  =  COP
+A  =  R2
+NOP
+A  =  R2
+B  =  14
+R1  =  14;  R2  =  8
+R1  =  12;  R2  =  14
+NOP
+OP  =  AFC
+writing  
+register
+NOP
+OP  =  COP
+A  =  R1
+A  =  R1
+EX/Mem
+NOPA  =  R1 NOP
+OP  =  AFC
+R1  =  14;  R2  =  8
+Entrance
+NOP
+B  =  12
+A  =  R2
+B  =  12
+OP  =  AFC
+A  =  R2
+NOP
+Entrance
+NOP
+NOP
+A  =  R1
+Entrance
+OP  =  COP
+OP  =  AFC
+R1  =  12 ;  R2  =  8
+OP  =  COP
+Entrance
+LI/DI
+NOP
+NOP
+B  =  12
+NOP
+NOP
+B  =  12
+R1  =  14;  R2  =  8
+1
+0
+10
+t
+10
+1
+0
+1
+0
+1
+0
+Figure  9:  Example  of  data  randomness
+Machine Translated by Google

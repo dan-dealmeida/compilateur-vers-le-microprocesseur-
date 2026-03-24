@@ -6,7 +6,7 @@
 digit       [0-9]
 letter      [a-zA-Z]
 id          {letter}({letter}|{digit}|_)*
-number      {digit}+
+number      {digit}+([eE][+-]?{digit}+)?
 
 %%
 

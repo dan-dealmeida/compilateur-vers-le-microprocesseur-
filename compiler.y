@@ -18,23 +18,37 @@ Program:
     ;
 
 Body:
-    Statements
+    Declarations Instructions
     ;
 
-Statements:
-    Statement Statements
+Declarations:
+    Declaration Declarations
     | /* empty */
     ;
 
-Statement:
-    Declaration
-    | Assignment
+Instructions:
+    Instruction Instructions
+    | /* empty */
+    ;
+
+Instruction:
+    Assignment
     | Print
     ;
 
 Declaration:
-    tINT tID tSEMI { printf("AFC %s\n", "variable_id"); } /* Placeholder for actual ID */
-    | tINT tID tASSIGN Expression tSEMI { printf("STORE %s\n", "variable_id"); }
+    tINT DeclList tSEMI
+    | tCONST DeclList tSEMI
+    ;
+
+DeclList:
+    DeclItem                          /* A list can be just a single variable... */
+    | DeclList tCOMMA DeclItem        /* ...OR a list, followed by a comma, followed by a variable */
+    ;
+
+DeclItem:
+    tID { printf("AFC %s\n", "variable_id"); }
+    | tID tASSIGN Expression { printf("STORE %s\n", "variable_id"); }
     ;
 
 Assignment:
