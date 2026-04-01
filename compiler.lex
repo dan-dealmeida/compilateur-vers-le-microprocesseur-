@@ -1,5 +1,7 @@
 %{
-#include "y.tab.h"
+#include <string.h>
+#include <stdlib.h>
+#include "compiler.tab.h"
 %}
 
 /* Definitions Section */
@@ -15,8 +17,8 @@ number      {digit}+([eE][+-]?{digit}+)?
 "const"     { return tCONST; }
 "printf"    { return tPRINTF; }
 
-{id}        { return tID; }
-{number}    { return tNB; }
+{id}        { yylval.str = strdup(yytext); return tID; }
+{number}    { yylval.nb = atoi(yytext); return tNB; }
 
 "+"         { return tADD; }
 "-"         { return tSOU; }

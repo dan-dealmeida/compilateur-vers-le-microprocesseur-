@@ -1,22 +1,22 @@
 # Simple Makefile for the Lex/Yacc compiler
 CC = gcc
-LEX = lex
-YACC = yacc
+LEX = flex
+YACC = /opt/homebrew/opt/bison/bin/bison
 TARGET = compiler
 
 all: $(TARGET)
 
-$(TARGET): y.tab.c lex.yy.c
-	$(CC) y.tab.c lex.yy.c -o $(TARGET)
+$(TARGET): compiler.tab.c lex.yy.c symbol_table.c symbol_table.h asm_output.c asm_output.h
+	$(CC) compiler.tab.c lex.yy.c symbol_table.c asm_output.c -o $(TARGET)
 
-y.tab.c y.tab.h: compiler.y
+compiler.tab.c compiler.tab.h: compiler.y symbol_table.h
 	$(YACC) -d compiler.y
 
-lex.yy.c: compiler.lex y.tab.h
+lex.yy.c: compiler.lex compiler.tab.h
 	$(LEX) compiler.lex
 
 test: $(TARGET)
 	./$(TARGET) < test.c
 
 clean:
-	rm -f $(TARGET) y.tab.c y.tab.h lex.yy.c
+	rm -f $(TARGET) compiler.tab.c compiler.tab.h lex.yy.c
