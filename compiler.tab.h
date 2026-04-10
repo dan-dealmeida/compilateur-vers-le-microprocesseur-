@@ -60,17 +60,23 @@ extern int yydebug;
     tINT = 261,                    /* tINT  */
     tCONST = 262,                  /* tCONST  */
     tPRINTF = 263,                 /* tPRINTF  */
-    tADD = 264,                    /* tADD  */
-    tSOU = 265,                    /* tSOU  */
-    tMUL = 266,                    /* tMUL  */
-    tDIV = 267,                    /* tDIV  */
-    tASSIGN = 268,                 /* tASSIGN  */
-    tLBRACE = 269,                 /* tLBRACE  */
-    tRBRACE = 270,                 /* tRBRACE  */
-    tLPAR = 271,                   /* tLPAR  */
-    tRPAR = 272,                   /* tRPAR  */
-    tSEMI = 273,                   /* tSEMI  */
-    tCOMMA = 274                   /* tCOMMA  */
+    tIF = 264,                     /* tIF  */
+    tELSE = 265,                   /* tELSE  */
+    tWHILE = 266,                  /* tWHILE  */
+    tADD = 267,                    /* tADD  */
+    tSOU = 268,                    /* tSOU  */
+    tMUL = 269,                    /* tMUL  */
+    tDIV = 270,                    /* tDIV  */
+    tASSIGN = 271,                 /* tASSIGN  */
+    tEQU = 272,                    /* tEQU  */
+    tINF = 273,                    /* tINF  */
+    tSUP = 274,                    /* tSUP  */
+    tLBRACE = 275,                 /* tLBRACE  */
+    tRBRACE = 276,                 /* tRBRACE  */
+    tLPAR = 277,                   /* tLPAR  */
+    tRPAR = 278,                   /* tRPAR  */
+    tSEMI = 279,                   /* tSEMI  */
+    tCOMMA = 280                   /* tCOMMA  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -84,7 +90,7 @@ union YYSTYPE
     int nb;
     char *str;
 
-#line 88 "compiler.tab.h"
+#line 94 "compiler.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

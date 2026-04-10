@@ -16,10 +16,16 @@ number      {digit}+([eE][+-]?{digit}+)?
 "int"       { return tINT; }
 "const"     { return tCONST; }
 "printf"    { return tPRINTF; }
+"if"        { return tIF; }
+"else"      { return tELSE; }
+"while"     { return tWHILE; }
 
 {id}        { yylval.str = strdup(yytext); return tID; }
 {number}    { yylval.nb = atoi(yytext); return tNB; }
 
+"=="        { return tEQU; }
+"<"         { return tINF; }
+">"         { return tSUP; }
 "+"         { return tADD; }
 "-"         { return tSOU; }
 "*"         { return tMUL; }
@@ -34,6 +40,7 @@ number      {digit}+([eE][+-]?{digit}+)?
 ","         { return tCOMMA; }
 
 [ \t\n]     { /* Ignore whitespace */ }
+"//".*      { /* Ignore line comments */ }
 
 .           { printf("Unknown character: %s\n", yytext); }
 

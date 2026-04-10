@@ -23,11 +23,14 @@ int temp_base = 0;
 %token <str> tID
 %token <nb>  tNB
 %token tMAIN tINT tCONST tPRINTF
+%token tIF tELSE tWHILE
 %token tADD tSOU tMUL tDIV tASSIGN
+%token tEQU tINF tSUP
 %token tLBRACE tRBRACE tLPAR tRPAR tSEMI tCOMMA
 
-%type <nb> Expression
+%type <nb> Expression IfHeader IfBody
 
+%left tEQU tINF tSUP
 %left tADD tSOU
 %left tMUL tDIV
 
@@ -54,6 +57,8 @@ Instructions:
 Instruction:
     Assignment
     | Print
+    | IfStatement
+    | WhileStatement
     ;
 
 Declaration:
@@ -108,6 +113,46 @@ Print:
     }
     ;
 
+IfHeader:
+    tIF tLPAR Expression tRPAR {
+        $<nb>$ = asm_get_line();
+        asm_emit2(OP_JMF, $3, -1);
+        free_temp_addr();
+    }
+    ;
+
+IfBody:
+    IfHeader tLBRACE Instructions tRBRACE {
+        $$ = $1;
+    }
+    ;
+
+IfStatement:
+    IfBody {
+        asm_patch($1, asm_get_line());
+    }
+    | IfBody tELSE {
+        $<nb>$ = asm_get_line();
+        asm_emit1(OP_JMP, -1);
+        asm_patch($1, asm_get_line());
+    } tLBRACE Instructions tRBRACE {
+        asm_patch($<nb>3, asm_get_line());
+    }
+    ;
+
+WhileStatement:
+    tWHILE {
+        $<nb>$ = asm_get_line();
+    } tLPAR Expression tRPAR {
+        $<nb>$ = asm_get_line();
+        asm_emit2(OP_JMF, $4, -1);
+        free_temp_addr();
+    } tLBRACE Instructions tRBRACE {
+        asm_emit1(OP_JMP, $<nb>2); 
+        asm_patch($<nb>6, asm_get_line());
+    }
+    ;
+
 Expression:
     tNB {
         int t = get_temp_addr();
@@ -138,6 +183,21 @@ Expression:
     }
     | Expression tDIV Expression {
         asm_emit3(OP_DIV, $1, $1, $3);
+        free_temp_addr();
+        $$ = $1;
+    }
+    | Expression tEQU Expression {
+        asm_emit3(OP_EQU, $1, $1, $3);
+        free_temp_addr();
+        $$ = $1;
+    }
+    | Expression tINF Expression {
+        asm_emit3(OP_INF, $1, $1, $3);
+        free_temp_addr();
+        $$ = $1;
+    }
+    | Expression tSUP Expression {
+        asm_emit3(OP_SUP, $1, $1, $3);
         free_temp_addr();
         $$ = $1;
     }

@@ -35,4 +35,7 @@ void asm_emit1(int opcode, int operand);
 /* Get the current instruction number (for jump patching later) */
 int asm_get_line(void);
 
+/* Patch a previously emitted jump instruction with its resolved target line */
+void asm_patch(int instruction_line, int jump_target_line);
+
 #endif

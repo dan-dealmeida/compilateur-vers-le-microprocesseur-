@@ -2,8 +2,18 @@
 #include <stdlib.h>
 #include "asm_output.h"
 
+#define MAX_INS 1000
+
+typedef struct {
+    int opcode;
+    int op1;
+    int op2;
+    int op3;
+} Instruction;
+
 static FILE *f_text = NULL;     /* plain-text assembly file */
 static FILE *f_encoded = NULL;  /* encoded (numeric) assembly file */
+static Instruction instr_buffer[MAX_INS];
 static int line_num = 0;        /* current instruction number */
 
 /* Maps opcode number to mnemonic string */
@@ -43,37 +53,70 @@ int asm_open(const char *text_filename, const char *encoded_filename) {
 }
 
 void asm_close(void) {
+    for (int i = 0; i < line_num; i++) {
+        int op = instr_buffer[i].opcode;
+        int a = instr_buffer[i].op1;
+        int b = instr_buffer[i].op2;
+        int c = instr_buffer[i].op3;
+
+        if (op == OP_PRI || op == OP_JMP) {
+            fprintf(f_text, "%s %d\n", opcode_name(op), a);
+            fprintf(f_encoded, "%d %d\n", op, a);
+            printf("%s %d\n", opcode_name(op), a);
+        } else if (op == OP_COP || op == OP_AFC || op == OP_JMF) {
+            fprintf(f_text, "%s %d %d\n", opcode_name(op), a, b);
+            fprintf(f_encoded, "%d %d %d\n", op, a, b);
+            printf("%s %d %d\n", opcode_name(op), a, b);
+        } else {
+            fprintf(f_text, "%s %d %d %d\n", opcode_name(op), a, b, c);
+            fprintf(f_encoded, "%d %d %d %d\n", op, a, b, c);
+            printf("%s %d %d %d\n", opcode_name(op), a, b, c);
+        }
+    }
+
     if (f_text)    { fclose(f_text);    f_text = NULL; }
     if (f_encoded) { fclose(f_encoded); f_encoded = NULL; }
 }
 
 /* 3-operand: ADD, SOU, MUL, DIV, INF, SUP, EQU */
 void asm_emit3(int opcode, int dest, int op1, int op2) {
-    /* Plain-text: "ADD 5 3 4" */
-    fprintf(f_text, "%s %d %d %d\n", opcode_name(opcode), dest, op1, op2);
-    /* Encoded:    "1 5 3 4" */
-    fprintf(f_encoded, "%d %d %d %d\n", opcode, dest, op1, op2);
-    /* Also print to stdout for debugging */
-    printf("%s %d %d %d\n", opcode_name(opcode), dest, op1, op2);
+    if (line_num >= MAX_INS) return;
+    instr_buffer[line_num].opcode = opcode;
+    instr_buffer[line_num].op1 = dest;
+    instr_buffer[line_num].op2 = op1;
+    instr_buffer[line_num].op3 = op2;
     line_num++;
 }
 
-/* 2-operand: COP, AFC */
+/* 2-operand: COP, AFC, JMF */
 void asm_emit2(int opcode, int dest, int src) {
-    fprintf(f_text, "%s %d %d\n", opcode_name(opcode), dest, src);
-    fprintf(f_encoded, "%d %d %d\n", opcode, dest, src);
-    printf("%s %d %d\n", opcode_name(opcode), dest, src);
+    if (line_num >= MAX_INS) return;
+    instr_buffer[line_num].opcode = opcode;
+    instr_buffer[line_num].op1 = dest;
+    instr_buffer[line_num].op2 = src;
     line_num++;
 }
 
 /* 1-operand: PRI, JMP */
 void asm_emit1(int opcode, int operand) {
-    fprintf(f_text, "%s %d\n", opcode_name(opcode), operand);
-    fprintf(f_encoded, "%d %d\n", opcode, operand);
-    printf("%s %d\n", opcode_name(opcode), operand);
+    if (line_num >= MAX_INS) return;
+    instr_buffer[line_num].opcode = opcode;
+    instr_buffer[line_num].op1 = operand;
     line_num++;
 }
 
 int asm_get_line(void) {
     return line_num;
+}
+
+void asm_patch(int instruction_line, int jump_target_line) {
+    if (instruction_line < 0 || instruction_line >= line_num) return;
+    
+    if (instr_buffer[instruction_line].opcode == OP_JMP) {
+        instr_buffer[instruction_line].op1 = jump_target_line;
+    } else if (instr_buffer[instruction_line].opcode == OP_JMF) {
+        instr_buffer[instruction_line].op2 = jump_target_line;
+    } else {
+        fprintf(stderr, "Error: trying to patch a non-jump instruction\n");
+    }
 }
