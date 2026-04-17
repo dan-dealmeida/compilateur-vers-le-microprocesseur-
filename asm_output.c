@@ -31,6 +31,12 @@ static const char *opcode_name(int opcode) {
         case OP_SUP: return "SUP";
         case OP_EQU: return "EQU";
         case OP_PRI: return "PRI";
+        case OP_RDIN: return "RDIN";
+        case OP_WRIN: return "WRIN";
+        case OP_CALL: return "CALL";
+        case OP_RET:  return "RET";
+        case OP_COPR: return "COPR";
+        case OP_COPW: return "COPW";
         default:     return "???";
     }
 }
@@ -59,11 +65,11 @@ void asm_close(void) {
         int b = instr_buffer[i].op2;
         int c = instr_buffer[i].op3;
 
-        if (op == OP_PRI || op == OP_JMP) {
+        if (op == OP_PRI || op == OP_JMP || op == OP_CALL || op == OP_RET) {
             fprintf(f_text, "%s %d\n", opcode_name(op), a);
             fprintf(f_encoded, "%d %d\n", op, a);
             printf("%s %d\n", opcode_name(op), a);
-        } else if (op == OP_COP || op == OP_AFC || op == OP_JMF) {
+        } else if (op == OP_COP || op == OP_AFC || op == OP_JMF || op == OP_COPR || op == OP_COPW || op == OP_RDIN || op == OP_WRIN) {
             fprintf(f_text, "%s %d %d\n", opcode_name(op), a, b);
             fprintf(f_encoded, "%d %d %d\n", op, a, b);
             printf("%s %d %d\n", opcode_name(op), a, b);
@@ -97,11 +103,18 @@ void asm_emit2(int opcode, int dest, int src) {
     line_num++;
 }
 
-/* 1-operand: PRI, JMP */
+/* 1-operand: PRI, JMP, CALL */
 void asm_emit1(int opcode, int operand) {
     if (line_num >= MAX_INS) return;
     instr_buffer[line_num].opcode = opcode;
     instr_buffer[line_num].op1 = operand;
+    line_num++;
+}
+
+/* 0-operand: RET */
+void asm_emit0(int opcode) {
+    if (line_num >= MAX_INS) return;
+    instr_buffer[line_num].opcode = opcode;
     line_num++;
 }
 

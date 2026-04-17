@@ -60,23 +60,28 @@ extern int yydebug;
     tINT = 261,                    /* tINT  */
     tCONST = 262,                  /* tCONST  */
     tPRINTF = 263,                 /* tPRINTF  */
-    tIF = 264,                     /* tIF  */
-    tELSE = 265,                   /* tELSE  */
-    tWHILE = 266,                  /* tWHILE  */
-    tADD = 267,                    /* tADD  */
-    tSOU = 268,                    /* tSOU  */
-    tMUL = 269,                    /* tMUL  */
-    tDIV = 270,                    /* tDIV  */
-    tASSIGN = 271,                 /* tASSIGN  */
-    tEQU = 272,                    /* tEQU  */
-    tINF = 273,                    /* tINF  */
-    tSUP = 274,                    /* tSUP  */
-    tLBRACE = 275,                 /* tLBRACE  */
-    tRBRACE = 276,                 /* tRBRACE  */
-    tLPAR = 277,                   /* tLPAR  */
-    tRPAR = 278,                   /* tRPAR  */
-    tSEMI = 279,                   /* tSEMI  */
-    tCOMMA = 280                   /* tCOMMA  */
+    tRETURN = 264,                 /* tRETURN  */
+    tIF = 265,                     /* tIF  */
+    tELSE = 266,                   /* tELSE  */
+    tWHILE = 267,                  /* tWHILE  */
+    tADD = 268,                    /* tADD  */
+    tSOU = 269,                    /* tSOU  */
+    tMUL = 270,                    /* tMUL  */
+    tDIV = 271,                    /* tDIV  */
+    tASSIGN = 272,                 /* tASSIGN  */
+    tEQU = 273,                    /* tEQU  */
+    tINF = 274,                    /* tINF  */
+    tSUP = 275,                    /* tSUP  */
+    tAMPER = 276,                  /* tAMPER  */
+    tLBRACE = 277,                 /* tLBRACE  */
+    tRBRACE = 278,                 /* tRBRACE  */
+    tLPAR = 279,                   /* tLPAR  */
+    tRPAR = 280,                   /* tRPAR  */
+    tSEMI = 281,                   /* tSEMI  */
+    tCOMMA = 282,                  /* tCOMMA  */
+    tAMPERSAND = 283,              /* tAMPERSAND  */
+    tDEREF = 284,                  /* tDEREF  */
+    DEREF = 285                    /* DEREF  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -85,12 +90,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 18 "compiler.y"
+#line 29 "compiler.y"
 
     int nb;
     char *str;
 
-#line 94 "compiler.tab.h"
+#line 99 "compiler.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

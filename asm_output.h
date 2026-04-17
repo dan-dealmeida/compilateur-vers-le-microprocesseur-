@@ -16,6 +16,12 @@
 #define OP_SUP  10
 #define OP_EQU  11
 #define OP_PRI  12
+#define OP_COPR 17
+#define OP_COPW 18
+#define OP_RDIN 13
+#define OP_WRIN 14
+#define OP_CALL 15
+#define OP_RET  16
 
 /* Open the two output files. Returns 0 on success, -1 on error. */
 int asm_open(const char *text_filename, const char *encoded_filename);
@@ -31,6 +37,9 @@ void asm_emit2(int opcode, int dest, int src);
 
 /* Emit a 1-operand instruction (PRI, JMP) */
 void asm_emit1(int opcode, int operand);
+
+/* Emit a 0-operand instruction (RET) */
+void asm_emit0(int opcode);
 
 /* Get the current instruction number (for jump patching later) */
 int asm_get_line(void);

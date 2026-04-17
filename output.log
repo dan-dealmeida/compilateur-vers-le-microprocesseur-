@@ -1,0 +1,101 @@
+/* declared 'res' at address 2 */
+/* declared 'temp' at address 6 */
+/* declared 'sum' at address 7 */
+/* declared 'x' at address 9 */
+/* declared 'y' at address 10 */
+/* declared 'fact_res' at address 11 */
+/* declared 'swap_res' at address 12 */
+/* declared '*px' at address 13 */
+/* declared '*py' at address 14 */
+/* declared 'i' at address 15 */
+/* declared 'loop_sum' at address 16 */
+JMP 39
+COP 3 0
+AFC 4 2
+INF 3 3 4
+JMF 3 8
+AFC 3 1
+COP 2 3
+JMP 17
+COP 4 0
+COP 5 0
+AFC 6 1
+SOU 5 5 6
+COP 0 5
+CALL 1
+COP 6 1
+MUL 4 4 6
+COP 2 4
+COP 6 2
+COP 1 6
+RET 0
+COP 8 3
+COPR 9 8
+COP 9 4
+COPR 10 9
+ADD 9 9 10
+COP 7 9
+COP 9 3
+COPR 10 9
+COP 6 10
+COP 10 3
+COP 11 4
+COPR 12 11
+COPW 10 12
+COP 10 4
+COP 11 6
+COPW 10 11
+COP 10 7
+COP 5 10
+RET 0
+AFC 17 5
+COP 9 17
+AFC 18 10
+COP 10 18
+COP 19 9
+COP 20 10
+EQU 19 19 20
+JMF 19 49
+PRI 10
+JMP 50
+PRI 9
+AFC 19 0
+COP 15 19
+AFC 20 0
+COP 16 20
+COP 21 15
+AFC 22 3
+INF 21 21 22
+JMF 21 69
+COP 21 16
+COP 22 15
+AFC 23 2
+MUL 22 22 23
+ADD 21 21 22
+COP 16 21
+COP 22 15
+AFC 23 1
+ADD 22 22 23
+COP 15 22
+JMP 54
+PRI 16
+AFC 23 4
+COP 0 23
+CALL 1
+COP 24 1
+COP 11 24
+PRI 11
+AFC 25 9
+COP 13 25
+AFC 26 10
+COP 14 26
+COP 27 13
+COP 28 14
+COP 3 27
+COP 4 28
+CALL 20
+COP 29 5
+COP 12 29
+PRI 12
+PRI 9
+PRI 10

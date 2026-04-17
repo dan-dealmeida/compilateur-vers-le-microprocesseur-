@@ -4,6 +4,8 @@
 #include "compiler.tab.h"
 %}
 
+%option yylineno
+
 /* Definitions Section */
 digit       [0-9]
 letter      [a-zA-Z]
@@ -19,6 +21,7 @@ number      {digit}+([eE][+-]?{digit}+)?
 "if"        { return tIF; }
 "else"      { return tELSE; }
 "while"     { return tWHILE; }
+"return"    { return tRETURN; }
 
 {id}        { yylval.str = strdup(yytext); return tID; }
 {number}    { yylval.nb = atoi(yytext); return tNB; }
@@ -31,6 +34,7 @@ number      {digit}+([eE][+-]?{digit}+)?
 "*"         { return tMUL; }
 "/"         { return tDIV; }
 "="         { return tASSIGN; }
+"&"         { return tAMPERSAND; }
 
 "{"         { return tLBRACE; }
 "}"         { return tRBRACE; }
