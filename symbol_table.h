@@ -20,6 +20,12 @@ int add_symbol(const char *name, int is_const, int is_pointer);
 // Look up a symbol by name. Returns its memory address, or -1 if not found.
 int lookup_symbol(const char *name);
 
+// Returns 1 if the symbol exists and was declared with const, otherwise 0.
+int is_const_symbol(const char *name);
+
+// Number of semantic errors detected by the symbol table.
+int symbol_error_count(void);
+
 #define MAX_FUNCTIONS 50
 #define MAX_PARAMS 10
 

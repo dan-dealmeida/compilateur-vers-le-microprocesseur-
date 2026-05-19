@@ -9,12 +9,14 @@ static int temp_addr = 0;   // current temporary address pointer
 
 static FuncSymbol func_table[MAX_FUNCTIONS];
 static int func_count = 0;
+static int error_count = 0;
 
 void init_symbol_table(void) {
     symbol_count = 0;
     next_addr = 0;
     temp_addr = 0;
     func_count = 0;
+    error_count = 0;
 }
 
 void reset_local_symbol_table(void) {
@@ -28,11 +30,13 @@ int add_symbol(const char *name, int is_const, int is_pointer) {
     for (int i = 0; i < symbol_count; i++) {
         if (strcmp(table[i].name, name) == 0) {
             fprintf(stderr, "Error: symbol '%s' already declared\n", name);
+            error_count++;
             return -1;
         }
     }
     if (symbol_count >= MAX_SYMBOLS) {
         fprintf(stderr, "Error: symbol table full\n");
+        error_count++;
         return -1;
     }
 
@@ -58,7 +62,21 @@ int lookup_symbol(const char *name) {
         }
     }
     fprintf(stderr, "Error: undeclared symbol '%s'\n", name);
+    error_count++;
     return -1;
+}
+
+int is_const_symbol(const char *name) {
+    for (int i = 0; i < symbol_count; i++) {
+        if (strcmp(table[i].name, name) == 0) {
+            return table[i].is_const;
+        }
+    }
+    return 0;
+}
+
+int symbol_error_count(void) {
+    return error_count;
 }
 
 int get_temp_addr(void) {
@@ -74,11 +92,13 @@ void free_temp_addr(void) {
 int add_function(const char *name, int start_line, int return_address, int *param_opts, int num_params) {
     if (func_count >= MAX_FUNCTIONS) {
         fprintf(stderr, "Error: function table full\n");
+        error_count++;
         return -1;
     }
     for (int i = 0; i < func_count; i++) {
         if (strcmp(func_table[i].name, name) == 0) {
             fprintf(stderr, "Error: function '%s' already declared\n", name);
+            error_count++;
             return -1;
         }
     }
@@ -101,5 +121,6 @@ FuncSymbol* lookup_function(const char *name) {
         }
     }
     fprintf(stderr, "Error: undeclared function '%s'\n", name);
+    error_count++;
     return NULL;
 }

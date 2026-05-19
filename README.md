@@ -9,10 +9,11 @@ It translates a simplified C-like language into a custom Register-oriented assem
 - `bison` (installed via Homebrew: `/opt/homebrew/opt/bison/bin/bison`)
 
 ## Features
-- Lexical analysis using `flex` recognizing operators, integers, identifiers, and basic keywords.
-- Syntax analysis using `bison` generating an intermediate representation.
-- Symbol table management for variables and assignments.
-- Assembly code generation with correct temporary storage allocation (`AFC`, `COP`, `ADD`, `MUL`, `DIV`, `SOU`, `PRI`).
+- Lexical analysis using `flex` recognizing operators, decimal/exponential integers, identifiers, and keywords.
+- Syntax analysis using `bison` for a simplified C-like language.
+- Symbol table management for variables, constants, and memory addresses.
+- Assembly code generation with temporary storage allocation (`AFC`, `COP`, `ADD`, `MUL`, `DIV`, `SOU`, `PRI`, comparisons, jumps).
+- Interpreter for the encoded assembly output.
 
 ## Output Files
 When you run the compiler, it generates two files:
@@ -32,13 +33,22 @@ When you run the compiler, it generates two files:
    ```
    *Note: This will generate `target.asm` and `target_encoded.asm` in the current directory.*
 
-3. **Run the built-in test program:**
+3. **Run the required tests:**
    ```bash
    make test
    ```
-   This will pass `test.c` into the compiler, outputting the generated assembly to the terminal, as well as generating the `target.asm` and `target_encoded.asm` files.
+   This builds the compiler and interpreter, runs example programs, compares interpreter output, and checks that a semantic error is rejected.
 
-4. **Clean generated files:**
+4. **Run the interpreter manually:**
+   ```bash
+   ./interpreter < target_encoded.asm
+   ```
+
+5. **Clean generated files:**
    ```bash
    make clean
    ```
+
+## Explanation
+
+See `EXPLANATION.md` for a simple walkthrough of how the lexer, parser, symbol table, assembly generation, and interpreter work.

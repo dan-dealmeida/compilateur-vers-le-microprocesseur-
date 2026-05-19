@@ -1,13 +1,23 @@
 # Binaries
 compiler
+interpreter
 scanner
 syntax_analyzer
 test_scanner
 
 # Generated C files
 lex.yy.c
+lex.interp.c
+compiler.tab.c
+compiler.tab.h
+interp.tab.c
+interp.tab.h
 y.tab.c
 y.tab.h
+
+# Generated assembly outputs
+target.asm
+target_encoded.asm
 
 # Object files
 *.o

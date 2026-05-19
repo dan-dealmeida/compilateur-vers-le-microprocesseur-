@@ -1,6 +1,7 @@
 %{
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "compiler.tab.h"
 %}
 
@@ -24,7 +25,7 @@ number      {digit}+([eE][+-]?{digit}+)?
 "return"    { return tRETURN; }
 
 {id}        { yylval.str = strdup(yytext); return tID; }
-{number}    { yylval.nb = atoi(yytext); return tNB; }
+{number}    { yylval.nb = (int)strtod(yytext, NULL); return tNB; }
 
 "=="        { return tEQU; }
 "<"         { return tINF; }
@@ -46,7 +47,7 @@ number      {digit}+([eE][+-]?{digit}+)?
 [ \t\n]     { /* Ignore whitespace */ }
 "//".*      { /* Ignore line comments */ }
 
-.           { printf("Unknown character: %s\n", yytext); }
+.           { fprintf(stderr, "Unknown character: %s\n", yytext); }
 
 %%
 
